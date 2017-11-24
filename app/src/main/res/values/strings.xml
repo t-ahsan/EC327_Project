@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AlphaBetter</string>
+    <string name="quiz_button_string">Start Quiz</string>
+    <string name="choice1_string">Choice 1</string>
+    <string name="choice2_string">Choice 2</string>
+    <string name="choice3_string">Choice 3</string>
+    <string name="choice4_string">Choice 4</string>
+    <string name="question_string">Question</string>
+    <string name="score_string">Score</string>
+    <string name="result_string">Result</string>
+</resources>
