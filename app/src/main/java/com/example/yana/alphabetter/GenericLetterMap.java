@@ -8,78 +8,62 @@ import java.util.Random;
  */
 
 public abstract class GenericLetterMap {
-    // number of entries
+    // number of rows in entryMap
     public int nEntries;
 
-    // array to hold all entries in target language
-    protected String targetLanguageEntries[] = new String[nEntries];
+    // the number of columns in entryMap
+    public final int nDimensions = 2;
 
-    // array to hold all entries in known language (ie English)
-    protected String knownLanguageEntries[] = new String[nEntries];
+    // array that holds all question/answer pairs. First column is entries from the target language
+    // the user is learning, and the second column is corresponding entries from the known language
+    // (presumably English)
+    protected String entryMap[][] = new String[nEntries][nDimensions];
 
-    public GenericLetterMap() {
+    protected final int targetLanguageIndex = 0;
 
-    }
+    protected final int knownLanguageIndex = 1;
+
+    public String targetLanguageAlphabetName;
+    public String knownLanguageAlphabetName = "Latin";
+    public String targetLanguageName;
+    public String knownLanguageName = "English";
+
 
     // shuffle all entries randomly, while still maintaining same indices for corresponding
     // target/known language pairs
     public void shuffleEntries() {
         int index;
-        String tTemp, kTemp;
+        String temp[] = new String[nDimensions];
         Random random = new Random();
-        for (int i = nEntries - 1; i > 0; i--)
-        {
+        for (int i = nEntries - 1; i > 0; i--) {
             index = random.nextInt(i + 1);
-            tTemp = targetLanguageEntries[index];
-            kTemp = knownLanguageEntries[index];
-            targetLanguageEntries[index] = targetLanguageEntries[i];
-            knownLanguageEntries[index] = knownLanguageEntries[i];
-            targetLanguageEntries[i] = tTemp;
-            knownLanguageEntries[i] = kTemp;
+            for (int j = 0; j < nDimensions; j++ ) {
+                temp[j] = entryMap[index][j];
+            }
+
+            for (int j = 0; j < nDimensions; j++) {
+                entryMap[index][j] = entryMap[i][j];
+            }
+
+            for (int j = 0; j < nDimensions; j++) {
+                entryMap[i][j] = temp[j];
+            }
+
         }
     }
 
     public String getTargetLanguageEntry(int index) {
-        return targetLanguageEntries[index];
+        if (index < 0 || index >= nEntries) {
+            throw new RuntimeException("Invalid index");
+        }
+        return entryMap[index][targetLanguageIndex];
     }
 
     public String getKnownLanguageEntry(int index) {
-        return knownLanguageEntries[index];
+        if (index < 0 || index >= nEntries) {
+            throw new RuntimeException("Invalid index");
+        }
+        return entryMap[index][knownLanguageIndex];
     }
 
-    public int getEntryIndex(String entry) {
-        int index = -1;
-        boolean indexFound = false;
-        for (int i = 0; i < nEntries; i++) {
-            if(targetLanguageEntries[i].equals(entry) || knownLanguageEntries[i].equals(entry)) {
-                index = i;
-                indexFound = true;
-            }
-        }
-        if (!indexFound) {
-            throw new RuntimeException("Invalid entry");
-        }
-
-        return index;
-    }
-
-    public String getCorrectTargetLanguageAnswer(String knownLanguageEntry) {
-        int correct_index = 0;
-        for (int i = 0; i < nEntries; i++) {
-            if (knownLanguageEntries[i].equals(knownLanguageEntry)) {
-                correct_index = i;
-            }
-        }
-        return targetLanguageEntries[correct_index];
-    }
-
-    public String getCorrectKnownLanguageAnswer(String targetLanguageEntry) {
-        int correct_index = 0;
-        for (int i = 0; i < nEntries; i++) {
-            if (targetLanguageEntries[i].equals(targetLanguageEntry)) {
-                correct_index = i;
-            }
-        }
-        return knownLanguageEntries[correct_index];
-    }
 }

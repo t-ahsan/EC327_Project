@@ -6,8 +6,12 @@
     <string name="choice3_string">Choice 3</string>
     <string name="choice4_string">Choice 4</string>
     <string name="question_string">Question</string>
-    <string name="score_string">0</string>
+    <string name="score_string">--</string>
     <string name="result_string">Result</string>
     <string name="question_number_string">--/--</string>
     <string name="prompt_string">Choose correct Latin letter</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="lives_string">--</string>
+    <string name="timer_string">--</string>
 </resources>

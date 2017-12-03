@@ -82,9 +82,14 @@ public class RussianLetterMap extends GenericLetterMap {
     // constructor
     public RussianLetterMap() {
         super();
+        targetLanguageAlphabetName = "Cyrillic";
+        targetLanguageName = "Russian";
         nEntries = 33;
-        targetLanguageEntries = russianLetters;
-        knownLanguageEntries = romanizedLetters;
+        entryMap = new String[nEntries][nDimensions];
+        for (int i = 0; i < nEntries; i++) {
+            entryMap[i][targetLanguageIndex] = russianLetters[i];
+            entryMap[i][knownLanguageIndex] = romanizedLetters[i];
+        }
     }
 
 

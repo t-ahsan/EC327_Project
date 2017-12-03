@@ -1,12 +1,15 @@
 /* Created by yana on 11/23/17
    Handles the quiz activity.
-   The activity is a multiple choice quiz that displays a Russian letter on the screen,
-   and gives 4 different options for answers.
+   The activity is a multiple choice quiz that displays a letter on the screen,
+   and gives 4 different options for answers in the opposite alphabet.
  */
 
 
 package com.example.yana.alphabetter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +36,9 @@ public class QuizActivity extends AppCompatActivity {
     // the question number the user is currently on
     private int questionNumber = 0;
 
+    // number of lives user starts with
+    private int lives = 3;
+
     // the correct button for the current question
     private int correctButton;
 
@@ -51,10 +57,20 @@ public class QuizActivity extends AppCompatActivity {
     // displays the result of the current question
     private TextView resultView;
 
+    // displays the prompt for the question
     private TextView promptView;
+
+    // displays the number of lives
+    private TextView livesView;
+
+    private TextView timerView;
 
     // displays the options for answers
     private Button buttons[] = new Button[nButtons];
+
+    private CountDownTimer timer;
+
+    private long timeLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +85,8 @@ public class QuizActivity extends AppCompatActivity {
         resultView = findViewById(R.id.result);
         questionNumberView = findViewById(R.id.questionNumber);
         promptView = findViewById(R.id.prompt);
+        livesView = findViewById(R.id.lives);
+        timerView = findViewById(R.id.timer);
 
         buttons[0] = findViewById(R.id.buttonChoice1);
         buttons[1] = findViewById(R.id.buttonChoice2);
@@ -76,86 +94,101 @@ public class QuizActivity extends AppCompatActivity {
         buttons[3] = findViewById(R.id.buttonChoice4);
 
         // shuffle letters
-        russianLetterMap.shuffleEntries();
+       russianLetterMap.shuffleEntries();
 
         // start quiz
        updateQuestion(questionNumber++);
     }
 
     private void updateQuestion(int i) {
-        if (i >= russianLetterMap.nEntries) {
+        // check if end of quiz
+        if (i >= russianLetterMap.nEntries || lives <= 0) {
             // go to 'end screen'???
             // TO DO: Implement end screen
 
             // go back to start menu
             finish();
         }
+
+
+
+        // user has not yet answered current question
+        questionAnswered = false;
+
+        // update question number
+        questionNumberView.setText(Integer.toString(questionNumber) + "/" + Integer.toString(russianLetterMap.nEntries));
+
+        // update score
+        scoreView.setText(Integer.toString(score));
+
+        // updates lives
+        livesView.setText(Integer.toString(lives));
+
+        // hide result
+        resultView.setVisibility(View.INVISIBLE);
+
+        // randomly choose between testing Latin and Cyrillic
+        Random random = new Random();
+        boolean isTestTargetMode = random.nextBoolean();
+
+        String questionLetter, correctAnswer;
+        int incorrectAnswerIndex;
+        int incorrectIndices[] = new int[nButtons - 1];
+        boolean valueUnique;
+        if (isTestTargetMode) {
+            //set prompt
+            promptView.setText("Choose correct " + russianLetterMap.knownLanguageAlphabetName + " letter");
+            // set question
+            questionLetter = russianLetterMap.getTargetLanguageEntry(i);
+            correctAnswer = russianLetterMap.getKnownLanguageEntry(i);
+            questionView.setText(questionLetter);
+
+            // randomly choose a button for correct answer
+            correctButton = random.nextInt(nButtons);
+            (buttons[correctButton]).setText(correctAnswer);
+
+            // fill in other buttons randomly with incorrect answers
+            for (int j = 0; j < nButtons; j++) {
+                if (j != correctButton) {
+                    do {
+                        valueUnique = true;
+                        incorrectAnswerIndex = random.nextInt(russianLetterMap.nEntries);
+                        //  check to make sure no answer options are repeated
+                        for (int k = 0; k < j; k++) {
+                            if (incorrectIndices[k] == incorrectAnswerIndex) {
+                                valueUnique = false;
+                                break;
+                            }
+                        }
+                    } while(!valueUnique || incorrectAnswerIndex == i);
+                    buttons[j].setText(russianLetterMap.getKnownLanguageEntry(incorrectAnswerIndex));
+                }
+            }
+
+        }
         else {
-            // user has not yet answered current question
-            questionAnswered = false;
+            //set prompt
+            promptView.setText("Choose correct " + russianLetterMap.targetLanguageAlphabetName + " letter");
 
-            // update question number
-            questionNumberView.setText(Integer.toString(questionNumber) + "/" + Integer.toString(russianLetterMap.nEntries));
+            // set question
+            questionLetter = russianLetterMap.getKnownLanguageEntry(i);
+            correctAnswer = russianLetterMap.getTargetLanguageEntry(i);
+            questionView.setText(questionLetter);
 
-            // update score
-            scoreView.setText(Integer.toString(score));
+            // randomly choose a button for correct answer
+            correctButton = random.nextInt(nButtons);
+            (buttons[correctButton]).setText(correctAnswer);
 
-            // hide result
-            resultView.setVisibility(View.INVISIBLE);
-
-            // randomly choose between testing Latin and Cyrillic
-            boolean isTestTargetMode = true;
-            Random random = new Random();
-            isTestTargetMode = random.nextBoolean();
-
-            String questionLetter, correctAnswer;
-            int incorrectAnswerIndex;
-            if (isTestTargetMode) {
-                //set prompt
-                promptView.setText("Choose correct Latin letter");
-                // set question
-                questionLetter = russianLetterMap.getTargetLanguageEntry(i);
-                correctAnswer = russianLetterMap.getCorrectKnownLanguageAnswer(questionLetter);
-                questionView.setText(questionLetter);
-
-                // randomly choose a button for correct answer
-                correctButton = random.nextInt(nButtons);
-                (buttons[correctButton]).setText(correctAnswer);
-
-                // fill in other buttons randomly with incorrect answers
-                for (int j = 0; j < nButtons; j++) {
-                    if (j != correctButton) {
-                        do {
-                            incorrectAnswerIndex = random.nextInt(russianLetterMap.nEntries);
-                        } while (incorrectAnswerIndex == i);
-                        buttons[j].setText(russianLetterMap.getKnownLanguageEntry(incorrectAnswerIndex));
-                    }
-                }
-
-            }
-            else {
-                //set prompt
-                promptView.setText("Choose correct Cyrillic letter");
-
-                // set question
-                questionLetter = russianLetterMap.getKnownLanguageEntry(i);
-                correctAnswer = russianLetterMap.getCorrectTargetLanguageAnswer(questionLetter);
-                questionView.setText(questionLetter);
-
-                // randomly choose a button for correct answer
-                correctButton = random.nextInt(nButtons);
-                (buttons[correctButton]).setText(correctAnswer);
-
-                // fill in other buttons randomly with incorrect answers
-                for (int j = 0; j < nButtons; j++) {
-                    if (j != correctButton) {
-                        do {
-                            incorrectAnswerIndex = random.nextInt(russianLetterMap.nEntries);
-                        } while (incorrectAnswerIndex == i);
-                        buttons[j].setText(russianLetterMap.getTargetLanguageEntry(incorrectAnswerIndex));
-                    }
+            // fill in other buttons randomly with incorrect answers
+            for (int j = 0; j < nButtons; j++) {
+                if (j != correctButton) {
+                    do {
+                        incorrectAnswerIndex = random.nextInt(russianLetterMap.nEntries);
+                    } while (incorrectAnswerIndex == i);
+                    buttons[j].setText(russianLetterMap.getTargetLanguageEntry(incorrectAnswerIndex));
                 }
             }
+        }
 
 
 
@@ -164,13 +197,29 @@ public class QuizActivity extends AppCompatActivity {
                 buttons[j].setClickable(true);
             }
 
+            // set timer
+
+            timer = new CountDownTimer(10000, 1000) {
+
+                public void onTick(long millisUntilFinished) {
+                    timeLeft = millisUntilFinished;
+                    timerView.setText("Seconds remaining: " + millisUntilFinished / 1000);
+                }
+
+                public void onFinish() {
+                    timerView.setText("Out of time!");
+                    lives--;
+                    updateQuestion(questionNumber++);
+
+                }
+            }.start();
+
             // wait for user to press one of the buttons
             for (int j = 0; j < nButtons; j++) {
                 buttons[j].setOnClickListener(buttonOnClickListener);
             }
-        }
-
     }
+
 
 
 
@@ -182,31 +231,43 @@ public class QuizActivity extends AppCompatActivity {
             // make sure user doesn't answer question more than once
             if (!questionAnswered) {
                 questionAnswered = true;
-
+                timer.cancel();
                 // figure out if user clicked correct button
                 switch (v.getId()) {
                     case R.id.buttonChoice1:
                         if (correctButton == 0) {
-                            score += 1;
+                            score += timeLeft/ 100;
                             userCorrect = true;
+                        }
+                        else {
+                            lives--;
                         }
                         break;
                     case R.id.buttonChoice2:
                         if (correctButton == 1) {
-                            score += 1;
+                            score += timeLeft/ 100;
                             userCorrect = true;
+                        }
+                        else {
+                            lives--;
                         }
                         break;
                     case R.id.buttonChoice3:
                         if (correctButton == 2) {
-                            score += 1;
+                            score += timeLeft/ 100;
                             userCorrect = true;
+                        }
+                        else {
+                            lives--;
                         }
                         break;
                     case R.id.buttonChoice4:
                         if (correctButton == 3) {
-                            score += 1;
+                            score += timeLeft/ 100;
                             userCorrect = true;
+                        }
+                        else {
+                            lives--;
                         }
                         break;
                     default:
@@ -238,6 +299,21 @@ public class QuizActivity extends AppCompatActivity {
 
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        // ask if user really wants to quit quiz when back button pressed
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        QuizActivity.super.onBackPressed();
+                    }
+                }).create().show();
+    }
 
 }
 
