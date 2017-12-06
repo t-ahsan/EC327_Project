@@ -7,7 +7,7 @@ import java.util.Random;
  * Created by yana on 11/24/2017.
  */
 
-public abstract class GenericLetterMap {
+public class GenericLetterMap {
     // number of rows in entryMap
     public int nEntries;
 

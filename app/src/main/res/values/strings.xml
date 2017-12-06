@@ -9,9 +9,11 @@
     <string name="score_string">--</string>
     <string name="result_string">Result</string>
     <string name="question_number_string">--/--</string>
-    <string name="prompt_string">Choose correct Latin letter</string>
+    <string name="prompt_string">Choose correct -- letter</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
     <string name="lives_string">--</string>
-    <string name="timer_string">--</string>
+    <string name="timer_string">Seconds left: --</string>
+    <string name="russian_quiz_button_string">Start Russian Quiz</string>
+    <string name="greek_quiz_button_string">Start Greek Quiz</string>
 </resources>
