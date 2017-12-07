@@ -78,7 +78,7 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        int languageIndex = intent.getIntExtra(MainActivity.EXTRA_INT, 0);
+        int languageIndex = intent.getIntExtra(MainActivity.LanguageNum, 0);
 
         // Decide which language to use based on button clicked in start screen
         switch (languageIndex) {
@@ -212,21 +212,41 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             // set timer
+            int DifficultyIndex = getIntent().getIntExtra(DifficultyActivity.Difficulty, 0);
+            switch (DifficultyIndex) {
+                case 0:
+                    timer = new CountDownTimer(15000, 10) {
 
-            timer = new CountDownTimer(10000, 10) {
+                        public void onTick(long millisUntilFinished) {
+                            timeLeft = millisUntilFinished;
+                            timerView.setText("Seconds remaining: " + millisUntilFinished / 1000);
+                        }
 
-                public void onTick(long millisUntilFinished) {
-                    timeLeft = millisUntilFinished;
-                    timerView.setText("Seconds remaining: " + millisUntilFinished / 1000);
-                }
+                        public void onFinish() {
+                            timerView.setText("Out of time!");
+                            lives--;
+                            updateQuestion(questionNumber++);
+                        }
+                    }.start();
+                    break;
+                case 1:
+                    timer = new CountDownTimer(5000, 10) {
 
-                public void onFinish() {
-                    timerView.setText("Out of time!");
-                    lives--;
-                    updateQuestion(questionNumber++);
-                }
-            }.start();
+                        public void onTick(long millisUntilFinished) {
+                            timeLeft = millisUntilFinished;
+                            timerView.setText("Seconds remaining: " + millisUntilFinished / 1000);
+                        }
 
+                        public void onFinish() {
+                            timerView.setText("Out of time!");
+                            lives--;
+                            updateQuestion(questionNumber++);
+                        }
+                    }.start();
+                    break;
+                default:
+                    throw new RuntimeException("Unknown Language ID");
+            }
             // wait for user to press one of the buttons
             for (int j = 0; j < nButtons; j++) {
                 buttons[j].setOnClickListener(buttonOnClickListener);

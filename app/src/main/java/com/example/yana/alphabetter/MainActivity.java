@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String EXTRA_INT = "com.example.myfirstapp.INT";
+    public static final String LanguageNum = "hello";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,14 +15,14 @@ public class MainActivity extends AppCompatActivity {
 
     // starts quiz when start button is clicked
     public void startRussianQuiz(View view) {
-        Intent intent = new Intent(this, QuizActivity.class);
-        intent.putExtra(EXTRA_INT, 0);
+        Intent intent = new Intent(this, DifficultyActivity.class);
+        intent.putExtra(LanguageNum, 0);
         startActivity(intent);
     }
 
     public void startGreekQuiz(View view) {
-        Intent intent = new Intent(this, QuizActivity.class);
-        intent.putExtra(EXTRA_INT, 1);
+        Intent intent = new Intent(this, DifficultyActivity.class);
+        intent.putExtra(LanguageNum, 1);
         startActivity(intent);
     }
 }
