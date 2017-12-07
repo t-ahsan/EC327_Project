@@ -37,8 +37,8 @@ public class QuizActivity extends AppCompatActivity {
     // the question number the user is currently on
     private int questionNumber = 0;
 
-    // number of lives user starts with
-    private int lives = 3;
+    // instantiates lives
+    private int lives;
 
     // the correct button for the current question
     private int correctButton;
@@ -91,6 +91,16 @@ public class QuizActivity extends AppCompatActivity {
             default:
                 throw new RuntimeException("Unknown Language ID");
         }
+        int DifficultyIndex = getIntent().getIntExtra(DifficultyActivity.Difficulty, 0);
+        switch (DifficultyIndex) {
+            case 0:
+                lives = 3;
+                break;
+            case 1:
+                lives = 1;
+                break;
+        }
+
 
         // setup layout
         setContentView(R.layout.activity_quiz);
