@@ -52,6 +52,7 @@ public class GenericLetterMap {
         }
     }
 
+    // returns entry from target language array at index
     public String getTargetLanguageEntry(int index) {
         if (index < 0 || index >= nEntries) {
             throw new RuntimeException("Invalid index");
@@ -59,6 +60,7 @@ public class GenericLetterMap {
         return entryMap[index][targetLanguageIndex];
     }
 
+    // returns entry from known language array at index
     public String getKnownLanguageEntry(int index) {
         if (index < 0 || index >= nEntries) {
             throw new RuntimeException("Invalid index");
