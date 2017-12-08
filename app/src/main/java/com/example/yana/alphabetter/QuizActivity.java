@@ -10,6 +10,7 @@ package com.example.yana.alphabetter;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -17,8 +18,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.example.yana.alphabetter.RussianLetterMap;
 
 import org.w3c.dom.Text;
 
@@ -64,60 +63,38 @@ public class QuizActivity extends AppCompatActivity {
     // displays the number of lives
     private TextView livesView;
 
+    // displays the status of the timer
     private TextView timerView;
 
     // displays the options for answers
     private Button buttons[] = new Button[nButtons];
 
+    // timer for each question
     private CountDownTimer timer;
 
+    // time left to answer each question
     private long timeLeft;
+
+    // initial time timer is set to
+    private long timeAtStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // get intent to figure out language for quiz
         Intent intent = getIntent();
         int languageIndex = intent.getIntExtra(MainActivity.LanguageNum, 0);
 
         // Decide which language to use based on button clicked in start screen
-        switch (languageIndex) {
-            case 0:
-                letterMap = new RussianLetterMap();
-                break;
-            case 1:
-                letterMap = new GreekLetterMap();
-                break;
-            default:
-                throw new RuntimeException("Unknown Language ID");
-        }
-        int DifficultyIndex = getIntent().getIntExtra(DifficultyActivity.Difficulty, 0);
-        switch (DifficultyIndex) {
-            case 0:
-                lives = 3;
-                break;
-            case 1:
-                lives = 1;
-                break;
-        }
+        loadLetterMap(languageIndex);
 
+        // figure out difficulty for quiz
+        int difficultyIndex = getIntent().getIntExtra(DifficultyActivity.Difficulty, 0);
+        loadDifficultyLevel(difficultyIndex);
 
         // setup layout
-        setContentView(R.layout.activity_quiz);
-
-        scoreView = findViewById(R.id.score);
-        scoreView.setText(Integer.toString(score));
-        questionView = findViewById(R.id.question);
-        resultView = findViewById(R.id.result);
-        questionNumberView = findViewById(R.id.questionNumber);
-        promptView = findViewById(R.id.prompt);
-        livesView = findViewById(R.id.lives);
-        timerView = findViewById(R.id.timer);
-
-        buttons[0] = findViewById(R.id.buttonChoice1);
-        buttons[1] = findViewById(R.id.buttonChoice2);
-        buttons[2] = findViewById(R.id.buttonChoice3);
-        buttons[3] = findViewById(R.id.buttonChoice4);
+        setupLayout();
 
         // shuffle letters
         letterMap.shuffleEntries();
@@ -137,29 +114,16 @@ public class QuizActivity extends AppCompatActivity {
         }
         else {
 
+            // update layout
+            updateLayout();
 
-            // user has not yet answered current question
-            questionAnswered = false;
-
-            // update question number
-            questionNumberView.setText(Integer.toString(questionNumber) + "/" + Integer.toString(letterMap.nEntries));
-
-            // update score
-            scoreView.setText(Integer.toString(score));
-
-            // updates lives
-            livesView.setText(Integer.toString(lives));
-
-            // hide result
-            resultView.setVisibility(View.INVISIBLE);
-
-            // randomly choose between testing Latin and Cyrillic
+            // randomly choose between testing Latin and Foreign Alphabet
             Random random = new Random();
             boolean isTestTargetMode = random.nextBoolean();
 
             String questionLetter, correctAnswer;
             int incorrectAnswerIndex;
-            int incorrectIndices[] = new int[nButtons - 1];
+            int incorrectIndices[] = new int[nButtons];
             boolean valueUnique;
             if (isTestTargetMode) {
                 //set prompt
@@ -173,7 +137,7 @@ public class QuizActivity extends AppCompatActivity {
                 correctButton = random.nextInt(nButtons);
                 (buttons[correctButton]).setText(correctAnswer);
 
-                // fill in other buttons randomly with incorrect answers
+                // fill in other buttons randomly with incorrect answers, with no duplicates
                 for (int j = 0; j < nButtons; j++) {
                     if (j != correctButton) {
                         do {
@@ -187,6 +151,7 @@ public class QuizActivity extends AppCompatActivity {
                                 }
                             }
                         } while (!valueUnique || incorrectAnswerIndex == i);
+                        incorrectIndices[j] = incorrectAnswerIndex;
                         buttons[j].setText(letterMap.getKnownLanguageEntry(incorrectAnswerIndex));
                     }
                 }
@@ -208,8 +173,17 @@ public class QuizActivity extends AppCompatActivity {
                 for (int j = 0; j < nButtons; j++) {
                     if (j != correctButton) {
                         do {
+                            valueUnique = true;
                             incorrectAnswerIndex = random.nextInt(letterMap.nEntries);
-                        } while (incorrectAnswerIndex == i);
+                            //  check to make sure no answer options are repeated
+                            for (int k = 0; k < j; k++) {
+                                if (incorrectIndices[k] == incorrectAnswerIndex) {
+                                    valueUnique = false;
+                                    break;
+                                }
+                            }
+                        } while (!valueUnique || incorrectAnswerIndex == i);
+                        incorrectIndices[j] = incorrectAnswerIndex;
                         buttons[j].setText(letterMap.getTargetLanguageEntry(incorrectAnswerIndex));
                     }
                 }
@@ -222,41 +196,8 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             // set timer
-            int DifficultyIndex = getIntent().getIntExtra(DifficultyActivity.Difficulty, 0);
-            switch (DifficultyIndex) {
-                case 0:
-                    timer = new CountDownTimer(15000, 10) {
+            setQuizTimer(timeAtStart);
 
-                        public void onTick(long millisUntilFinished) {
-                            timeLeft = millisUntilFinished;
-                            timerView.setText("Seconds remaining: " + millisUntilFinished / 1000);
-                        }
-
-                        public void onFinish() {
-                            timerView.setText("Out of time!");
-                            lives--;
-                            updateQuestion(questionNumber++);
-                        }
-                    }.start();
-                    break;
-                case 1:
-                    timer = new CountDownTimer(5000, 10) {
-
-                        public void onTick(long millisUntilFinished) {
-                            timeLeft = millisUntilFinished;
-                            timerView.setText("Seconds remaining: " + millisUntilFinished / 1000);
-                        }
-
-                        public void onFinish() {
-                            timerView.setText("Out of time!");
-                            lives--;
-                            updateQuestion(questionNumber++);
-                        }
-                    }.start();
-                    break;
-                default:
-                    throw new RuntimeException("Unknown Language ID");
-            }
             // wait for user to press one of the buttons
             for (int j = 0; j < nButtons; j++) {
                 buttons[j].setOnClickListener(buttonOnClickListener);
@@ -266,7 +207,7 @@ public class QuizActivity extends AppCompatActivity {
 
 
 
-
+    // listener for all four buttons
     private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -356,19 +297,7 @@ public class QuizActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // restart timer
-                        timer = new CountDownTimer(timeLeft, 10) {
-
-                            public void onTick(long millisUntilFinished) {
-                                timeLeft = millisUntilFinished;
-                                timerView.setText("Seconds remaining: " + millisUntilFinished / 1000);
-                        }
-
-                            public void onFinish() {
-                                timerView.setText("Out of time!");
-                                lives--;
-                                updateQuestion(questionNumber++);
-                            }
-                        }.start();
+                        setQuizTimer(timeLeft);
                     }
                 })
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -379,7 +308,92 @@ public class QuizActivity extends AppCompatActivity {
                 }).create().show();
     }
 
+
+    // loads letter map for language
+    public void loadLetterMap(int index) {
+        switch (index) {
+            case 0:
+                letterMap = new RussianLetterMap();
+                break;
+            case 1:
+                letterMap = new GreekLetterMap();
+                break;
+            default:
+                throw new RuntimeException("Unknown Language ID");
+        }
+    }
+
+    // loads variables for difficulty level
+    public void loadDifficultyLevel(int difficulty) {
+        switch (difficulty) {
+            case 0:
+                lives = 3;
+                timeAtStart = 15000;
+                break;
+            case 1:
+                lives = 1;
+                timeAtStart = 3000;
+                break;
+        }
+    }
+
+    // sets up layout for quiz
+    private void setupLayout() {
+        setContentView(R.layout.activity_quiz);
+
+        scoreView = findViewById(R.id.score);
+        scoreView.setText(Integer.toString(score));
+        questionView = findViewById(R.id.question);
+        resultView = findViewById(R.id.result);
+        questionNumberView = findViewById(R.id.questionNumber);
+        promptView = findViewById(R.id.prompt);
+        livesView = findViewById(R.id.lives);
+        timerView = findViewById(R.id.timer);
+
+        buttons[0] = findViewById(R.id.buttonChoice1);
+        buttons[1] = findViewById(R.id.buttonChoice2);
+        buttons[2] = findViewById(R.id.buttonChoice3);
+        buttons[3] = findViewById(R.id.buttonChoice4);
+    }
+
+    // updates texts to match new question
+    private void updateLayout() {
+        // user has not yet answered current question
+        questionAnswered = false;
+
+        // update question number
+        questionNumberView.setText(Integer.toString(questionNumber) + "/" + Integer.toString(letterMap.nEntries));
+
+        // update score
+        scoreView.setText(Integer.toString(score));
+
+        // updates lives
+        livesView.setText(Integer.toString(lives));
+
+        // hide result
+        resultView.setVisibility(View.INVISIBLE);
+    }
+
+    // sets timer and displays countdown
+    private void setQuizTimer(long beginTime) {
+        timer = new CountDownTimer(beginTime, 10) {
+
+            public void onTick(long millisUntilFinished) {
+                timeLeft = millisUntilFinished;
+                timerView.setText("Seconds remaining: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                timerView.setText("Out of time!");
+                lives--;
+                updateQuestion(questionNumber++);
+            }
+        }.start();
+    }
+
 }
+
+
 
 
 

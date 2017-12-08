@@ -22,6 +22,7 @@ public class DifficultyActivity extends AppCompatActivity {
         intent.putExtra(MainActivity.LanguageNum, language);
         intent.putExtra(Difficulty, 0);
         startActivity(intent);
+        finish();
     }
 
     public void startHard(View view) {
@@ -30,6 +31,7 @@ public class DifficultyActivity extends AppCompatActivity {
         intent.putExtra(MainActivity.LanguageNum, language);
         intent.putExtra(Difficulty, 1);
         startActivity(intent);
+        finish();
     }
 
 
