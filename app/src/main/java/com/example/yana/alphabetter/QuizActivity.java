@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -228,37 +229,45 @@ public class QuizActivity extends AppCompatActivity {
                         if (correctButton == 0) {
                             score += 100*timeLeft/timeAtStart;
                             userCorrect = true;
+                            buttons[0].setBackgroundColor(Color.GREEN);
                         }
                         else {
                             lives--;
+                            buttons[0].setBackgroundColor(Color.RED);
                         }
                         break;
                     case R.id.buttonChoice2:
                         if (correctButton == 1) {
                             score += 100*timeLeft/timeAtStart;
                             userCorrect = true;
+                            buttons[1].setBackgroundColor(Color.GREEN);
                         }
                         else {
                             lives--;
+                            buttons[1].setBackgroundColor(Color.GREEN);
                         }
                         break;
                     case R.id.buttonChoice3:
                         if (correctButton == 2) {
                             score += 100*timeLeft/timeAtStart;
                             userCorrect = true;
+                            buttons[2].setBackgroundColor(Color.GREEN);
                         }
                         else {
                             lives--;
+                            buttons[2].setBackgroundColor(Color.RED);
                         }
                         break;
                     case R.id.buttonChoice4:
                         if (correctButton == 3) {
                             score += 100*timeLeft/timeAtStart;
                             userCorrect = true;
+                            buttons[3].setBackgroundColor(Color.GREEN);
 
                         }
                         else {
                             lives--;
+                            buttons[3].setBackgroundColor(Color.RED);
                         }
                         break;
                     default:
@@ -385,6 +394,11 @@ public class QuizActivity extends AppCompatActivity {
 
         // hide result
         resultView.setVisibility(View.INVISIBLE);
+
+        buttons[0].setBackgroundColor(Color.GRAY);
+        buttons[1].setBackgroundColor(Color.GRAY);
+        buttons[2].setBackgroundColor(Color.GRAY);
+        buttons[3].setBackgroundColor(Color.GRAY);
 
         // shorten timer for hard mode
         if (isHardMode) {
