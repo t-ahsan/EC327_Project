@@ -91,6 +91,4 @@ public class RussianLetterMap extends GenericLetterMap {
             entryMap[i][knownLanguageIndex] = romanizedLetters[i];
         }
     }
-
-
 }

@@ -33,6 +33,4 @@ public class DifficultyActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-
 }

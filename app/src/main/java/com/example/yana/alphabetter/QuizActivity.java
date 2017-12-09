@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -103,11 +104,19 @@ public class QuizActivity extends AppCompatActivity {
        updateQuestion(questionNumber++);
     }
 
+    public void go_end(){
+        setContentView(R.layout.activity_end);
+        Intent my_intent = new Intent(this, activity_end.class);
+        startActivity(my_intent);
+    }
+
     private void updateQuestion(int i) {
         // check if end of quiz
         if (i >= letterMap.nEntries || lives <= 0) {
             // go to 'end screen'???
             // TO DO: Implement end screen
+
+            go_end();
 
             // go back to start menu
             finish();
@@ -220,12 +229,15 @@ public class QuizActivity extends AppCompatActivity {
                 // figure out if user clicked correct button
                 switch (v.getId()) {
                     case R.id.buttonChoice1:
+                        Button button = (Button) findViewById(R.id.buttonChoice1);
                         if (correctButton == 0) {
                             score += timeLeft/ 100;
                             userCorrect = true;
+                            button.setBackgroundColor(Color.GREEN);
                         }
                         else {
                             lives--;
+                            button.setBackgroundColor(Color.RED);
                         }
                         break;
                     case R.id.buttonChoice2:
@@ -280,6 +292,7 @@ public class QuizActivity extends AppCompatActivity {
                     updateQuestion(questionNumber++);
                 }
             }, 1000);
+
 
 
         }
@@ -372,6 +385,11 @@ public class QuizActivity extends AppCompatActivity {
 
         // hide result
         resultView.setVisibility(View.INVISIBLE);
+
+        buttons[0].setBackgroundColor(Color.GRAY);
+        buttons[1].setBackgroundColor(Color.GRAY);
+        buttons[2].setBackgroundColor(Color.GRAY);
+        buttons[3].setBackgroundColor(Color.GRAY);
     }
 
     // sets timer and displays countdown
