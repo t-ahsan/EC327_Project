@@ -122,19 +122,24 @@ public class QuizActivity extends AppCompatActivity {
 
     // updates quiz to next question
     private void updateQuestion(int i) {
-        // check if end of quiz
-        // go to end screen
+
+        // user loses
         if (lives <= 0){
             Intent intent = new Intent(this, EndScreenActivity.class);
             intent.putExtra(win, false);
             intent.putExtra(scoreString, score);
+
+            // go to end screen
             startActivity(intent);
             finish();
         }
+        // user completes quiz and wins
         else if (i >= letterMap.nEntries){
             Intent intent = new Intent(this, EndScreenActivity.class);
             intent.putExtra(win, true);
             intent.putExtra(scoreString, score);
+
+            // go to end screen
             startActivity(intent);
             finish();
         }
@@ -151,6 +156,8 @@ public class QuizActivity extends AppCompatActivity {
             int incorrectAnswerIndex;
             int incorrectIndices[] = new int[nButtons];
             boolean valueUnique;
+
+            // test with target language
             if (testMode == 0) {
                 //set prompt
                 promptView.setText("Choose correct " + letterMap.knownLanguageAlphabetName + " letter");
@@ -182,7 +189,9 @@ public class QuizActivity extends AppCompatActivity {
                     }
                 }
 
-            } else if (testMode == 1) {
+            }
+            // test with latin
+            else if (testMode == 1) {
                 //set prompt
                 promptView.setText("Choose correct " + letterMap.targetLanguageAlphabetName + " letter");
 
@@ -214,30 +223,33 @@ public class QuizActivity extends AppCompatActivity {
                     }
                 }
             }
+            // test with audio
             else {
                 //set prompt
                 promptView.setText("Choose correct " + letterMap.targetLanguageAlphabetName + " letter");
 
-                // set question
+                // set correct audio
                 questionAudio = letterMap.getAudioFileEntry(i);
 
+                // play audio
                 sound = MediaPlayer.create(QuizActivity.this, questionAudio);
                 sound.start();
+
+                // release audio when finished playing
                 sound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     public void onCompletion(MediaPlayer mp) {
                         mp.release();
                     }
 
                 });
+
+                // show audio button, hide text prompt
                 questionView.setVisibility(View.INVISIBLE);
                 questionAudioButton.setVisibility(View.VISIBLE);
                 questionAudioButton.setClickable(true);
 
-
-
-
+                // get correct answer
                 correctAnswer = letterMap.getTargetCapitalLetterEntry(i);
-
 
                 // randomly choose a button for correct answer
                 correctButton = random.nextInt(nButtons);
@@ -281,15 +293,16 @@ public class QuizActivity extends AppCompatActivity {
     }
 
 
-
     // listener for all answer buttons
     private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            // cancel timer
+            timer.cancel();
+
+
             boolean userCorrect = false;
             Handler handler = new Handler();
-
-            timer.cancel();
             // figure out if user clicked correct button
             switch (v.getId()) {
                 case R.id.buttonChoice1:
@@ -303,6 +316,7 @@ public class QuizActivity extends AppCompatActivity {
                         buttons[0].setBackgroundColor(Color.RED);
                     }
                     break;
+
                 case R.id.buttonChoice2:
                     if (correctButton == 1) {
                         score += 100*timeLeft/timeAtStart;
@@ -314,6 +328,7 @@ public class QuizActivity extends AppCompatActivity {
                         buttons[1].setBackgroundColor(Color.RED);
                     }
                     break;
+
                 case R.id.buttonChoice3:
                     if (correctButton == 2) {
                         score += 100*timeLeft/timeAtStart;
@@ -325,6 +340,7 @@ public class QuizActivity extends AppCompatActivity {
                         buttons[2].setBackgroundColor(Color.RED);
                     }
                     break;
+
                 case R.id.buttonChoice4:
                     if (correctButton == 3) {
                         score += 100*timeLeft/timeAtStart;
@@ -337,6 +353,7 @@ public class QuizActivity extends AppCompatActivity {
                         buttons[3].setBackgroundColor(Color.RED);
                     }
                     break;
+
                 default:
                     throw new RuntimeException("Unknown button ID");
             }
@@ -346,7 +363,7 @@ public class QuizActivity extends AppCompatActivity {
                 buttons[i].setClickable(false);
             }
 
-            // show result to user
+            // show result to user and inform result with appropriate sound
             if (userCorrect) {
                 resultView.setText("Correct!");
                 sound = MediaPlayer.create(QuizActivity.this, R.raw.correct);
@@ -358,6 +375,7 @@ public class QuizActivity extends AppCompatActivity {
                 resultView.setText("Incorrect");
             }
 
+            // release sound after it finishes playing
             sound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 public void onCompletion(MediaPlayer mp) {
                     mp.release();
@@ -365,6 +383,7 @@ public class QuizActivity extends AppCompatActivity {
 
             });
 
+            // show result
             resultView.setVisibility(View.VISIBLE);
 
             // go to next question after delay
@@ -390,8 +409,9 @@ public class QuizActivity extends AppCompatActivity {
         timer.cancel();
         // ask if user really wants to quit quiz
         new AlertDialog.Builder(this)
-                .setTitle("Really Exit?")
+                .setTitle("Quit Quiz?")
                 .setMessage("Are you sure you want to exit?")
+                .setCancelable(false)
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
