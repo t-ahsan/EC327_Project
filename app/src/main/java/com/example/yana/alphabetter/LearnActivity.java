@@ -1,5 +1,6 @@
 package com.example.yana.alphabetter;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.provider.MediaStore;
@@ -27,7 +28,15 @@ public class LearnActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
-        letterMap = new RussianLetterMap();
+
+        // get intent to figure out language for quiz
+        Intent intent = getIntent();
+        int languageIndex = intent.getIntExtra(MainActivity.LanguageNum, 0);
+
+        // Decide which language to use based on button clicked in start screen
+        loadLetterMap(languageIndex);
+
+
         letterCanvas = (LetterCanvas) findViewById(R.id.letterCanvas);
         sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[0]);
         setupLayout();
@@ -74,5 +83,19 @@ public class LearnActivity extends AppCompatActivity {
         }
         sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[letterNumber]);
         sound.start();
+    }
+
+    // loads letter map for language
+    public void loadLetterMap(int index) {
+        switch (index) {
+            case 0:
+                letterMap = new RussianLetterMap();
+                break;
+            case 1:
+                letterMap = new GreekLetterMap();
+                break;
+            default:
+                throw new RuntimeException("Unknown Language ID");
+        }
     }
 }

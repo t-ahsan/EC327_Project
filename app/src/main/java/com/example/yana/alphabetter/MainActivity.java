@@ -33,4 +33,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void startLearnGreek(View view) {
+        Intent intent = new Intent(this, LearnActivity.class);
+        intent.putExtra(LanguageNum, 1);
+        startActivity(intent);
+    }
+
+
+
 }

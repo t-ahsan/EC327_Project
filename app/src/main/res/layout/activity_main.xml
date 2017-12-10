@@ -52,6 +52,16 @@
         app:layout_constraintTop_toBottomOf="@+id/greek_quiz_button"
         app:layout_constraintVertical_bias="0.498" />
 
+    <Button
+        android:id="@+id/learn_greek_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="startLearnGreek"
+        android:text="@string/learn_greek_string"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/learn_russian_button" />
 
 
 </android.support.constraint.ConstraintLayout>

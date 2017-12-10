@@ -19,5 +19,6 @@
     <string name="target_letter_string">Ф, ф</string>
     <string name="known_letter_string">f</string>
     <string name="learn_russian_string">Learn Russian Alphabet</string>
+    <string name="learn_greek_string">Learn Greek Alphabet</string>
     <string name="next_string">Next</string>
 </resources>
