@@ -32,8 +32,13 @@ import java.util.Random;
 public class QuizActivity extends AppCompatActivity {
     // the database for the questions
     GenericLetterMap letterMap;
+<<<<<<< HEAD
     public static final String win = "2";
     public static final String scoreString = "1";
+=======
+    public static final String win = "1";
+    public static final String scoreString = "2";
+>>>>>>> Tariq
     // number of options the user is given
     private int nButtons = 4;
 
@@ -143,6 +148,10 @@ public class QuizActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> Tariq
         else {
 
             // update layout
