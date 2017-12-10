@@ -2,6 +2,7 @@ package com.example.yana.alphabetter;
 
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ public class LearnActivity extends AppCompatActivity {
     private ImageButton audioButton;
     private Button nextButton;
     private LetterCanvas letterCanvas;
+    private MediaPlayer sound;
 
 
 
@@ -27,7 +29,7 @@ public class LearnActivity extends AppCompatActivity {
         setContentView(R.layout.activity_learn);
         letterMap = new RussianLetterMap();
         letterCanvas = (LetterCanvas) findViewById(R.id.letterCanvas);
-
+        sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[0]);
         setupLayout();
         updateLetter(letterNumber);
     }
@@ -67,7 +69,10 @@ public class LearnActivity extends AppCompatActivity {
     };
 
     public void onSoundButtonClick(View view) {
-        MediaPlayer sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[letterNumber]);
+        if (sound.isPlaying()) {
+            sound.stop();
+        }
+        sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[letterNumber]);
         sound.start();
     }
 }
