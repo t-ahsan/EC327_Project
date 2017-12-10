@@ -113,10 +113,10 @@ public class QuizActivity extends AppCompatActivity {
         // check if end of quiz
         if (i >= letterMap.nEntries || lives <= 0) {
             // go to 'end screen'???
+            Intent intent = new Intent(this, EndScreenActivity.class);
+            startActivity(intent);
             // TO DO: Implement end screen
 
-            // go back to start menu
-            finish();
         }
         else {
 
