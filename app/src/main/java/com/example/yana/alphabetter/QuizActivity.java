@@ -29,7 +29,8 @@ import java.util.Random;
 public class QuizActivity extends AppCompatActivity {
     // the database for the questions
     GenericLetterMap letterMap;
-
+    public static final String win = "1";
+    public static final String scoreString = "1";
     // number of options the user is given
     private int nButtons = 4;
 
@@ -113,8 +114,21 @@ public class QuizActivity extends AppCompatActivity {
         // check if end of quiz
         if (i >= letterMap.nEntries || lives <= 0) {
             // go to 'end screen'???
-            Intent intent = new Intent(this, EndScreenActivity.class);
-            startActivity(intent);
+
+            if (i >= letterMap.nEntries){
+                Intent intent = new Intent(this, EndScreenActivity.class);
+                intent.putExtra(win, 1);
+                intent.putExtra(scoreString, score);
+                startActivity(intent);
+            }
+
+            if (lives <= 0){
+                Intent intent = new Intent(this, EndScreenActivity.class);
+                intent.putExtra(win, 0);
+                intent.putExtra(scoreString, score);
+                startActivity(intent);
+            }
+
             // TO DO: Implement end screen
 
         }

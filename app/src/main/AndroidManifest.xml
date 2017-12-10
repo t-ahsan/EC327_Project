@@ -26,6 +26,7 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".LearnActivity" />
+        <activity android:name=".EndScreenActivity" />
     </application>
 
 </manifest>
