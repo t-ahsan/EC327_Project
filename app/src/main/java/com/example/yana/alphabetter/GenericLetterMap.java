@@ -13,22 +13,31 @@ public class GenericLetterMap {
     public int nEntries;
 
     // the number of columns in entryMap
-    public final int nDimensions = 2;
+    public final int nDimensions = 3;
 
     // array that holds all question/answer pairs. First column is entries from the target language
     // the user is learning, and the second column is corresponding entries from the known language
     // (presumably English)
     protected String entryMap[][] = new String[nEntries][nDimensions];
 
+    // the column that holds letters in the target language
     protected final int targetLanguageIndex = 0;
 
+    // the column that hold the version of the letters in the known language (English/latin)
     protected final int knownLanguageIndex = 1;
 
+    // the column that holds the capital letters of the target language
+    protected final int targetCapitalLettersIndex = 2;
+
+    // the name of the alphabet of the target language
     public String targetLanguageAlphabetName;
     public String knownLanguageAlphabetName = "Latin";
+
+    // the name of the target language
     public String targetLanguageName;
     public String knownLanguageName = "English";
 
+    // an array that holds the location of audio files for the target language
     public int audioFiles[] = new int [nEntries];
 
 
@@ -69,6 +78,14 @@ public class GenericLetterMap {
             throw new RuntimeException("Invalid index");
         }
         return entryMap[index][knownLanguageIndex];
+    }
+
+    // returns entry from capital target letters array at index
+    public String getTargetCapitalLetterEntry(int index) {
+        if (index < 0 || index >= nEntries) {
+            throw new RuntimeException("Invalid index");
+        }
+        return entryMap[index][targetCapitalLettersIndex];
     }
 
 }

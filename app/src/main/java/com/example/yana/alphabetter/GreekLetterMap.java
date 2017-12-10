@@ -32,6 +32,33 @@ public class GreekLetterMap extends GenericLetterMap {
             "Ω, ω",
     };
 
+    private String capitalGreekLetters[] = {
+            "Α",
+            "Β",
+            "Γ",
+            "Δ",
+            "Ε",
+            "Ζ",
+            "Η",
+            "Θ",
+            "Ι",
+            "Κ",
+            "Λ",
+            "Μ",
+            "Ν",
+            "Ξ",
+            "Ο",
+            "Π",
+            "Ρ",
+            "Σ",
+            "Τ",
+            "Υ",
+            "Φ",
+            "Χ",
+            "Ψ",
+            "Ω"
+    };
+
     private String greekLetterNames [] = {
             "alpha",
             "beta",
@@ -96,6 +123,7 @@ public class GreekLetterMap extends GenericLetterMap {
         for (int i = 0; i < nEntries; i++) {
             entryMap[i][targetLanguageIndex] = greekLetters[i];
             entryMap[i][knownLanguageIndex] = greekLetterNames[i];
+            entryMap[i][targetCapitalLettersIndex] = capitalGreekLetters[i];
         }
         audioFiles = greekAudioFiles;
     }

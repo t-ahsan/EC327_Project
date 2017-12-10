@@ -13,13 +13,28 @@ import android.widget.TextView;
 
 public class LearnActivity extends AppCompatActivity {
 
+    // data for language
     private GenericLetterMap letterMap;
+
+    // the current letter user is learning
     private int letterNumber = 0;
+
+    // displays letter in target language
     private TextView targetLetterView;
+
+    // displays letter in known language (English)
     private TextView knownLetterView;
+
+    // button for sound
     private ImageButton audioButton;
+
+    // button to go to next letter
     private Button nextButton;
+
+    // drawing canvas to practice writing letter
     private LetterCanvas letterCanvas;
+
+    // audio for letter
     private MediaPlayer sound;
 
 
@@ -36,25 +51,31 @@ public class LearnActivity extends AppCompatActivity {
         // Decide which language to use based on button clicked in start screen
         loadLetterMap(languageIndex);
 
-
-        letterCanvas = (LetterCanvas) findViewById(R.id.letterCanvas);
-        sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[0]);
+        //setup layout
         setupLayout();
+
         updateLetter(letterNumber);
     }
 
+    // set up layout for learn activity
     public void setupLayout() {
         targetLetterView = findViewById(R.id.targetLetter);
         knownLetterView = findViewById(R.id.knownLetter);
         nextButton = findViewById(R.id.nextButton);
         audioButton = findViewById(R.id.audioButton);
+        letterCanvas = (LetterCanvas) findViewById(R.id.letterCanvas);
+        sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[0]);
     }
 
+    // update layout for current letter
     private void updateLayout(){
         targetLetterView.setText(letterMap.getTargetLanguageEntry(letterNumber));
         knownLetterView.setText(letterMap.getKnownLanguageEntry(letterNumber));
+        letterCanvas.eraseAll();
+
     }
 
+    // update activity for next letter
     private void updateLetter(int lNum) {
         if (lNum >= letterMap.nEntries) {
 
@@ -62,21 +83,18 @@ public class LearnActivity extends AppCompatActivity {
         }
         else {
             updateLayout();
-            //letterCanvas.drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
-            if (!letterCanvas.eraseAll()) {
-
-            }
-            nextButton.setOnClickListener(nextButtonOnClickListener);
         }
     }
 
-    private View.OnClickListener nextButtonOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            updateLetter(++letterNumber);
-        }
-    };
+    public void onNextButtonClick (View view) {
+        updateLetter(++letterNumber);
+    }
 
+    public void onClearButtonClick (View view) {
+        letterCanvas.eraseAll();
+    }
+
+    // play audio when user clicks audio button
     public void onSoundButtonClick(View view) {
         if (sound.isPlaying()) {
             sound.stop();

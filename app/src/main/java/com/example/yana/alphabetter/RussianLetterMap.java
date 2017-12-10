@@ -46,6 +46,42 @@ public class RussianLetterMap extends GenericLetterMap {
             "Я, я"
     };
 
+    private String capitalRussianLetters [] = {
+            "А",
+            "Б",
+            "В",
+            "Г",
+            "Д",
+            "Е",
+            "Ё",
+            "Ж",
+            "З",
+            "И",
+            "Й",
+            "К",
+            "Л",
+            "М",
+            "Н",
+            "О",
+            "П",
+            "Р",
+            "С",
+            "Т",
+            "У",
+            "Ф",
+            "Х",
+            "Ц",
+            "Ч",
+            "Ш",
+            "Щ",
+            "Ъ",
+            "Ы",
+            "Ь",
+            "Э",
+            "Ю",
+            "Я"
+    };
+
     /* array of latinization of russian letters */
     private String romanizedLetters [] = {
             "a",
@@ -129,6 +165,7 @@ public class RussianLetterMap extends GenericLetterMap {
         for (int i = 0; i < nEntries; i++) {
             entryMap[i][targetLanguageIndex] = russianLetters[i];
             entryMap[i][knownLanguageIndex] = romanizedLetters[i];
+            entryMap[i][targetCapitalLettersIndex] = capitalRussianLetters[i];
         }
 
         audioFiles = russianAudioFiles;

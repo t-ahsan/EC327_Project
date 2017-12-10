@@ -111,9 +111,10 @@
 
     <TextView
         android:id="@+id/result"
-        android:layout_width="97dp"
-        android:layout_height="wrap_content"
+        android:layout_width="182dp"
+        android:layout_height="31dp"
         android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
         android:text="@string/result_string"
         android:textSize="20sp"
         android:visibility="invisible"

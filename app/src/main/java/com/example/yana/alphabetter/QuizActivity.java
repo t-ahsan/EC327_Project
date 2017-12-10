@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -82,6 +83,8 @@ public class QuizActivity extends AppCompatActivity {
     private long timeAtStart;
 
     private boolean isHardMode = false;
+
+    private MediaPlayer resultSound;
 
 
     @Override
@@ -168,7 +171,7 @@ public class QuizActivity extends AppCompatActivity {
 
                 // set question
                 questionLetter = letterMap.getKnownLanguageEntry(i);
-                correctAnswer = letterMap.getTargetLanguageEntry(i);
+                correctAnswer = letterMap.getTargetCapitalLetterEntry(i);
                 questionView.setText(questionLetter);
 
                 // randomly choose a button for correct answer
@@ -190,11 +193,10 @@ public class QuizActivity extends AppCompatActivity {
                             }
                         } while (!valueUnique || incorrectAnswerIndex == i);
                         incorrectIndices[j] = incorrectAnswerIndex;
-                        buttons[j].setText(letterMap.getTargetLanguageEntry(incorrectAnswerIndex));
+                        buttons[j].setText(letterMap.getTargetCapitalLetterEntry(incorrectAnswerIndex));
                     }
                 }
             }
-
 
             // enable user to click buttons
             for (int j = 0; j < nButtons; j++) {
@@ -283,8 +285,12 @@ public class QuizActivity extends AppCompatActivity {
             // show result to user
             if (userCorrect) {
                 resultView.setText("Correct!");
+                resultSound = MediaPlayer.create(QuizActivity.this, R.raw.correct);
+                resultSound.start();
             }
             else {
+                resultSound = MediaPlayer.create(QuizActivity.this, R.raw.incorrect);
+                resultSound.start();
                 resultView.setText("Incorrect");
             }
             resultView.setVisibility(View.VISIBLE);
@@ -416,9 +422,22 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                timerView.setText("Out of time!");
+                resultView.setText("Out of time!");
+                resultView.setVisibility(View.VISIBLE);
                 lives--;
-                updateQuestion(questionNumber++);
+                // disable buttons until next question loads
+                for (int i = 0; i < nButtons; i++) {
+                    buttons[i].setClickable(false);
+                }
+
+                // go to next question after delay
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        updateQuestion(questionNumber++);
+                    }
+                }, 500);
+
             }
         }.start();
     }
