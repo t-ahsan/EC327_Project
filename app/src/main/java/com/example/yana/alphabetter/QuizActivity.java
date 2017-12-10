@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -20,6 +21,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -29,7 +32,8 @@ import java.util.Random;
 public class QuizActivity extends AppCompatActivity {
     // the database for the questions
     GenericLetterMap letterMap;
-
+    public static final String win = "1";
+    public static final String scoreString = "1";
     // number of options the user is given
     private int nButtons = 4;
 
@@ -44,9 +48,6 @@ public class QuizActivity extends AppCompatActivity {
 
     // the correct button for the current question
     private int correctButton;
-
-    // keeps track of if the user has answered the current question
-    private boolean questionAnswered = false;
 
     // displays the user's score
     private TextView scoreView;
@@ -64,13 +65,15 @@ public class QuizActivity extends AppCompatActivity {
     private TextView promptView;
 
     // displays the number of lives
-    private TextView livesView;
+    private ImageView livesView;
 
     // displays the status of the timer
     private TextView timerView;
 
     // displays the options for answers
     private Button buttons[] = new Button[nButtons];
+
+    private ImageButton questionAudioButton;
 
     // timer for each question
     private CountDownTimer timer;
@@ -81,7 +84,15 @@ public class QuizActivity extends AppCompatActivity {
     // initial time timer is set to
     private long timeAtStart;
 
+    // boolean to determine if user is playing hard mode
     private boolean isHardMode = false;
+
+    // media player for all sounds in quiz
+    private MediaPlayer sound;
+
+    // audio file to be played
+    private int questionAudio;
+
 
 
     @Override
@@ -109,29 +120,40 @@ public class QuizActivity extends AppCompatActivity {
        updateQuestion(questionNumber++);
     }
 
+    // updates quiz to next question
     private void updateQuestion(int i) {
         // check if end of quiz
-        if (i >= letterMap.nEntries || lives <= 0) {
-            // go to 'end screen'???
-            // TO DO: Implement end screen
-
-            // go back to start menu
-            finish();
+        // go to end screen
+        if (lives <= 0){
+            Intent intent = new Intent(this, EndScreenActivity.class);
+            intent.putExtra(win, 0);
+            intent.putExtra(scoreString, score);
+            startActivity(intent);
         }
+        else if (i >= letterMap.nEntries){
+            Intent intent = new Intent(this, EndScreenActivity.class);
+            intent.putExtra(win, 1);
+            intent.putExtra(scoreString, score);
+            startActivity(intent);
+        }
+
+
+
+
         else {
 
             // update layout
             updateLayout();
 
-            // randomly choose between testing Latin and Foreign Alphabet
+            // randomly choose between testing Latin, target language, or audio
             Random random = new Random();
-            boolean isTestTargetMode = random.nextBoolean();
+            int testMode = random.nextInt(3);
 
             String questionLetter, correctAnswer;
             int incorrectAnswerIndex;
             int incorrectIndices[] = new int[nButtons];
             boolean valueUnique;
-            if (isTestTargetMode) {
+            if (testMode == 0) {
                 //set prompt
                 promptView.setText("Choose correct " + letterMap.knownLanguageAlphabetName + " letter");
                 // set question
@@ -162,13 +184,13 @@ public class QuizActivity extends AppCompatActivity {
                     }
                 }
 
-            } else {
+            } else if (testMode == 1) {
                 //set prompt
                 promptView.setText("Choose correct " + letterMap.targetLanguageAlphabetName + " letter");
 
                 // set question
                 questionLetter = letterMap.getKnownLanguageEntry(i);
-                correctAnswer = letterMap.getTargetLanguageEntry(i);
+                correctAnswer = letterMap.getTargetCapitalLetterEntry(i);
                 questionView.setText(questionLetter);
 
                 // randomly choose a button for correct answer
@@ -190,11 +212,60 @@ public class QuizActivity extends AppCompatActivity {
                             }
                         } while (!valueUnique || incorrectAnswerIndex == i);
                         incorrectIndices[j] = incorrectAnswerIndex;
-                        buttons[j].setText(letterMap.getTargetLanguageEntry(incorrectAnswerIndex));
+                        buttons[j].setText(letterMap.getTargetCapitalLetterEntry(incorrectAnswerIndex));
                     }
                 }
             }
+            else {
+                //set prompt
+                promptView.setText("Choose correct " + letterMap.targetLanguageAlphabetName + " letter");
 
+                // set question
+                questionAudio = letterMap.getAudioFileEntry(i);
+
+                sound = MediaPlayer.create(QuizActivity.this, questionAudio);
+                sound.start();
+                sound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+
+                });
+                questionView.setVisibility(View.INVISIBLE);
+                questionAudioButton.setVisibility(View.VISIBLE);
+                questionAudioButton.setClickable(true);
+
+
+
+
+                correctAnswer = letterMap.getTargetCapitalLetterEntry(i);
+
+
+                // randomly choose a button for correct answer
+                correctButton = random.nextInt(nButtons);
+                (buttons[correctButton]).setText(correctAnswer);
+
+                // fill in other buttons randomly with incorrect answers
+                for (int j = 0; j < nButtons; j++) {
+                    if (j != correctButton) {
+                        do {
+                            valueUnique = true;
+                            incorrectAnswerIndex = random.nextInt(letterMap.nEntries);
+                            //  check to make sure no answer options are repeated
+                            for (int k = 0; k < j; k++) {
+                                if (incorrectIndices[k] == incorrectAnswerIndex) {
+                                    valueUnique = false;
+                                    break;
+                                }
+                            }
+                        } while (!valueUnique || incorrectAnswerIndex == i);
+                        incorrectIndices[j] = incorrectAnswerIndex;
+                        buttons[j].setText(letterMap.getTargetCapitalLetterEntry(incorrectAnswerIndex));
+                    }
+                }
+
+
+            }
 
             // enable user to click buttons
             for (int j = 0; j < nButtons; j++) {
@@ -213,66 +284,63 @@ public class QuizActivity extends AppCompatActivity {
 
 
 
-    // listener for all four buttons
+    // listener for all answer buttons
     private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             boolean userCorrect = false;
             Handler handler = new Handler();
-            // make sure user doesn't answer question more than once
-            if (!questionAnswered) {
-                questionAnswered = true;
-                timer.cancel();
-                // figure out if user clicked correct button
-                switch (v.getId()) {
-                    case R.id.buttonChoice1:
-                        if (correctButton == 0) {
-                            score += 100*timeLeft/timeAtStart;
-                            userCorrect = true;
-                            buttons[0].setBackgroundColor(Color.GREEN);
-                        }
-                        else {
-                            lives--;
-                            buttons[0].setBackgroundColor(Color.RED);
-                        }
-                        break;
-                    case R.id.buttonChoice2:
-                        if (correctButton == 1) {
-                            score += 100*timeLeft/timeAtStart;
-                            userCorrect = true;
-                            buttons[1].setBackgroundColor(Color.GREEN);
-                        }
-                        else {
-                            lives--;
-                            buttons[1].setBackgroundColor(Color.GREEN);
-                        }
-                        break;
-                    case R.id.buttonChoice3:
-                        if (correctButton == 2) {
-                            score += 100*timeLeft/timeAtStart;
-                            userCorrect = true;
-                            buttons[2].setBackgroundColor(Color.GREEN);
-                        }
-                        else {
-                            lives--;
-                            buttons[2].setBackgroundColor(Color.RED);
-                        }
-                        break;
-                    case R.id.buttonChoice4:
-                        if (correctButton == 3) {
-                            score += 100*timeLeft/timeAtStart;
-                            userCorrect = true;
-                            buttons[3].setBackgroundColor(Color.GREEN);
 
-                        }
-                        else {
-                            lives--;
-                            buttons[3].setBackgroundColor(Color.RED);
-                        }
-                        break;
-                    default:
-                        throw new RuntimeException("Unknown button ID");
-                }
+            timer.cancel();
+            // figure out if user clicked correct button
+            switch (v.getId()) {
+                case R.id.buttonChoice1:
+                    if (correctButton == 0) {
+                        score += 100*timeLeft/timeAtStart;
+                        userCorrect = true;
+                        buttons[0].setBackgroundColor(Color.GREEN);
+                    }
+                    else {
+                        lives--;
+                        buttons[0].setBackgroundColor(Color.RED);
+                    }
+                    break;
+                case R.id.buttonChoice2:
+                    if (correctButton == 1) {
+                        score += 100*timeLeft/timeAtStart;
+                        userCorrect = true;
+                        buttons[1].setBackgroundColor(Color.GREEN);
+                    }
+                    else {
+                        lives--;
+                        buttons[1].setBackgroundColor(Color.RED);
+                    }
+                    break;
+                case R.id.buttonChoice3:
+                    if (correctButton == 2) {
+                        score += 100*timeLeft/timeAtStart;
+                        userCorrect = true;
+                        buttons[2].setBackgroundColor(Color.GREEN);
+                    }
+                    else {
+                        lives--;
+                        buttons[2].setBackgroundColor(Color.RED);
+                    }
+                    break;
+                case R.id.buttonChoice4:
+                    if (correctButton == 3) {
+                        score += 100*timeLeft/timeAtStart;
+                        userCorrect = true;
+                        buttons[3].setBackgroundColor(Color.GREEN);
+
+                    }
+                    else {
+                        lives--;
+                        buttons[3].setBackgroundColor(Color.RED);
+                    }
+                    break;
+                default:
+                    throw new RuntimeException("Unknown button ID");
             }
 
             // disable buttons until next question loads
@@ -283,10 +351,22 @@ public class QuizActivity extends AppCompatActivity {
             // show result to user
             if (userCorrect) {
                 resultView.setText("Correct!");
+                sound = MediaPlayer.create(QuizActivity.this, R.raw.correct);
+                sound.start();
             }
             else {
+                sound = MediaPlayer.create(QuizActivity.this, R.raw.incorrect);
+                sound.start();
                 resultView.setText("Incorrect");
             }
+
+            sound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+
+            });
+
             resultView.setVisibility(View.VISIBLE);
 
             // go to next question after delay
@@ -369,20 +449,20 @@ public class QuizActivity extends AppCompatActivity {
         resultView = findViewById(R.id.result);
         questionNumberView = findViewById(R.id.questionNumber);
         promptView = findViewById(R.id.prompt);
-        livesView = findViewById(R.id.lives);
+        livesView = findViewById(R.id.imageView);
         timerView = findViewById(R.id.timer);
 
         buttons[0] = findViewById(R.id.buttonChoice1);
         buttons[1] = findViewById(R.id.buttonChoice2);
         buttons[2] = findViewById(R.id.buttonChoice3);
         buttons[3] = findViewById(R.id.buttonChoice4);
+
+        questionAudioButton = findViewById(R.id.questionAudioButton);
+
     }
 
     // updates texts to match new question
     private void updateLayout() {
-        // user has not yet answered current question
-        questionAnswered = false;
-
         // update question number
         questionNumberView.setText(Integer.toString(questionNumber) + "/" + Integer.toString(letterMap.nEntries));
 
@@ -390,10 +470,24 @@ public class QuizActivity extends AppCompatActivity {
         scoreView.setText(Integer.toString(score));
 
         // updates lives
-        livesView.setText(Integer.toString(lives));
+        if (lives == 3){
+            livesView.setImageResource(R.drawable.three_hearts);
+        }
+        else if (lives == 2){
+            livesView.setImageResource(R.drawable.two_hearts);
+        }
+        else if (lives == 1){
+            livesView.setImageResource(R.drawable.one_heart);
+        }
+        else if (lives == 0){
+            livesView.setImageResource(R.drawable.zero_hearts);
+        }
 
         // hide result
         resultView.setVisibility(View.INVISIBLE);
+        questionAudioButton.setVisibility(View.INVISIBLE);
+        questionAudioButton.setClickable(false);
+        questionView.setVisibility(View.VISIBLE);
 
         buttons[0].setBackgroundColor(Color.GRAY);
         buttons[1].setBackgroundColor(Color.GRAY);
@@ -416,12 +510,34 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                timerView.setText("Out of time!");
+                resultView.setText("Out of time!");
+                resultView.setVisibility(View.VISIBLE);
                 lives--;
-                updateQuestion(questionNumber++);
+                // disable buttons until next question loads
+                for (int i = 0; i < nButtons; i++) {
+                    buttons[i].setClickable(false);
+                }
+
+                // go to next question after delay
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        updateQuestion(questionNumber++);
+                    }
+                }, 500);
+
             }
         }.start();
     }
+
+    // replay question audio when question audio button is clicked
+    public void onQuestionAudioButtonClick(View view) {
+        sound = MediaPlayer.create(QuizActivity.this, questionAudio);
+        sound.start();
+
+    }
+
+
 
 }
 

@@ -11,15 +11,39 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/*
+Created by yana on 12/9/17
+The activity that allows the user to learn the target language alphabet by seeing the letters,
+hearing a native speaker pronounce them, and allows the user to practice writing the letters by
+drawing on a canvas
+ */
+
 public class LearnActivity extends AppCompatActivity {
 
+    // data for language
     private GenericLetterMap letterMap;
+
+    // the current letter user is learning
     private int letterNumber = 0;
+
+    // displays letter in target language
     private TextView targetLetterView;
+
+    // displays letter in known language (English)
     private TextView knownLetterView;
+
+    private TextView traceLetterView;
+
+    // button for sound
     private ImageButton audioButton;
+
+    // button to go to next letter
     private Button nextButton;
+
+    // drawing canvas to practice writing letter
     private LetterCanvas letterCanvas;
+
+    // audio for letter
     private MediaPlayer sound;
 
 
@@ -36,25 +60,33 @@ public class LearnActivity extends AppCompatActivity {
         // Decide which language to use based on button clicked in start screen
         loadLetterMap(languageIndex);
 
-
-        letterCanvas = (LetterCanvas) findViewById(R.id.letterCanvas);
-        sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[0]);
+        //setup layout
         setupLayout();
+
         updateLetter(letterNumber);
     }
 
+    // set up layout for learn activity
     public void setupLayout() {
         targetLetterView = findViewById(R.id.targetLetter);
         knownLetterView = findViewById(R.id.knownLetter);
+        traceLetterView = findViewById(R.id.traceLetter);
         nextButton = findViewById(R.id.nextButton);
         audioButton = findViewById(R.id.audioButton);
+        letterCanvas = (LetterCanvas) findViewById(R.id.letterCanvas);
+        sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[0]);
     }
 
+    // update layout for current letter
     private void updateLayout(){
         targetLetterView.setText(letterMap.getTargetLanguageEntry(letterNumber));
+        traceLetterView.setText(letterMap.getTargetLanguageEntry(letterNumber));
         knownLetterView.setText(letterMap.getKnownLanguageEntry(letterNumber));
+        letterCanvas.eraseAll();
+
     }
 
+    // update activity for next letter
     private void updateLetter(int lNum) {
         if (lNum >= letterMap.nEntries) {
 
@@ -62,27 +94,30 @@ public class LearnActivity extends AppCompatActivity {
         }
         else {
             updateLayout();
-            //letterCanvas.drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
-            if (!letterCanvas.eraseAll()) {
-
-            }
-            nextButton.setOnClickListener(nextButtonOnClickListener);
         }
     }
 
-    private View.OnClickListener nextButtonOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            updateLetter(++letterNumber);
-        }
-    };
+    // go to next letter when next button clicked
+    public void onNextButtonClick (View view) {
+        updateLetter(++letterNumber);
+    }
 
+    // clear user's drawing when clear button clicked
+    public void onClearButtonClick (View view) {
+        letterCanvas.eraseAll();
+    }
+
+    // play audio when user clicks audio button
     public void onSoundButtonClick(View view) {
-        if (sound.isPlaying()) {
-            sound.stop();
-        }
         sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[letterNumber]);
         sound.start();
+
+        sound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+
+        });
     }
 
     // loads letter map for language

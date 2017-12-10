@@ -7,15 +7,19 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 /**
  * Created by yana on 12/9/2017.
+ * The custom View object that allows the user to draw/trace letters in the target
+ * language to practice writing them.
  */
 
 public class LetterCanvas extends View {
+    // the path being drawn
     private Path drawPath;
 
     //defines what to draw
@@ -24,7 +28,7 @@ public class LetterCanvas extends View {
     //defines how to draw
     private Paint drawPaint;
 
-    //initial color
+    // paint color
     private int paintColor = 0xFFFF0000;
 
     //canvas - holding pen, holds your drawings
@@ -35,20 +39,18 @@ public class LetterCanvas extends View {
     private Bitmap canvasBitmap;
 
     //brush size
-    private float currentBrushSize;
-
+    private float brushSize;
 
     private void init(){
-        currentBrushSize = 10;
+        brushSize = 10;
         drawPath = new Path();
         drawPaint = new Paint();
         drawPaint.setColor(paintColor);
         drawPaint.setAntiAlias(true);
-        drawPaint.setStrokeWidth(currentBrushSize);
+        drawPaint.setStrokeWidth(brushSize);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
-
         canvasPaint = new Paint(Paint.DITHER_FLAG);
 
     }
@@ -67,7 +69,7 @@ public class LetterCanvas extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        //create canvas of certain device size.
+        //create canvas of certain size.
         super.onSizeChanged(w, h, oldw, oldh);
 
         //create Bitmap of certain w,h
@@ -103,7 +105,7 @@ public class LetterCanvas extends View {
         return true;
     }
 
-    // erase drawing
+    // erase entire drawing
     public boolean eraseAll() {
         //drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         if (drawCanvas != null) {

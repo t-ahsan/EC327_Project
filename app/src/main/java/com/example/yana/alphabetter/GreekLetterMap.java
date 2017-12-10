@@ -2,6 +2,7 @@ package com.example.yana.alphabetter;
 
 /**
  * Created by yana on 12/6/2017.
+ * Holds data needed for Greek learning/quiz activities.
  */
 
 public class GreekLetterMap extends GenericLetterMap {
@@ -30,6 +31,33 @@ public class GreekLetterMap extends GenericLetterMap {
             "Χ, χ",
             "Ψ, ψ",
             "Ω, ω",
+    };
+
+    private String capitalGreekLetters[] = {
+            "Α",
+            "Β",
+            "Γ",
+            "Δ",
+            "Ε",
+            "Ζ",
+            "Η",
+            "Θ",
+            "Ι",
+            "Κ",
+            "Λ",
+            "Μ",
+            "Ν",
+            "Ξ",
+            "Ο",
+            "Π",
+            "Ρ",
+            "Σ",
+            "Τ",
+            "Υ",
+            "Φ",
+            "Χ",
+            "Ψ",
+            "Ω"
     };
 
     private String greekLetterNames [] = {
@@ -96,6 +124,7 @@ public class GreekLetterMap extends GenericLetterMap {
         for (int i = 0; i < nEntries; i++) {
             entryMap[i][targetLanguageIndex] = greekLetters[i];
             entryMap[i][knownLanguageIndex] = greekLetterNames[i];
+            entryMap[i][targetCapitalLettersIndex] = capitalGreekLetters[i];
         }
         audioFiles = greekAudioFiles;
     }

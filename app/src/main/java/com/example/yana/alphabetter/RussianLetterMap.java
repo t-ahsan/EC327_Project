@@ -6,6 +6,7 @@ import java.io.File;
 
 /**
  * Created by yana on 11/24/2017.
+ * Holds data needed for Russian learning/quiz mode
  */
 
 public class RussianLetterMap extends GenericLetterMap {
@@ -44,6 +45,42 @@ public class RussianLetterMap extends GenericLetterMap {
             "Э, э",
             "Ю, ю",
             "Я, я"
+    };
+
+    private String capitalRussianLetters [] = {
+            "А",
+            "Б",
+            "В",
+            "Г",
+            "Д",
+            "Е",
+            "Ё",
+            "Ж",
+            "З",
+            "И",
+            "Й",
+            "К",
+            "Л",
+            "М",
+            "Н",
+            "О",
+            "П",
+            "Р",
+            "С",
+            "Т",
+            "У",
+            "Ф",
+            "Х",
+            "Ц",
+            "Ч",
+            "Ш",
+            "Щ",
+            "Ъ",
+            "Ы",
+            "Ь",
+            "Э",
+            "Ю",
+            "Я"
     };
 
     /* array of latinization of russian letters */
@@ -129,6 +166,7 @@ public class RussianLetterMap extends GenericLetterMap {
         for (int i = 0; i < nEntries; i++) {
             entryMap[i][targetLanguageIndex] = russianLetters[i];
             entryMap[i][knownLanguageIndex] = romanizedLetters[i];
+            entryMap[i][targetCapitalLettersIndex] = capitalRussianLetters[i];
         }
 
         audioFiles = russianAudioFiles;
