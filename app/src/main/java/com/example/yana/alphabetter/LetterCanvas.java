@@ -42,7 +42,7 @@ public class LetterCanvas extends View {
     private float brushSize;
 
     private void init(){
-        brushSize = 10;
+        brushSize = 15;
         drawPath = new Path();
         drawPaint = new Paint();
         drawPaint.setColor(paintColor);

@@ -21,6 +21,6 @@
     <string name="learn_russian_string">Learn Russian Alphabet</string>
     <string name="learn_greek_string">Learn Greek Alphabet</string>
     <string name="next_string">Next</string>
-    <string name="practice_string">Practice writing this letter below!</string>
+    <string name="practice_string">Practice writing by tracing the letter below!</string>
     <string name="clear_string">Clear Drawing</string>
 </resources>

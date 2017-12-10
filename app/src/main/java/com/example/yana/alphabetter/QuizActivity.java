@@ -32,7 +32,7 @@ import java.util.Random;
 public class QuizActivity extends AppCompatActivity {
     // the database for the questions
     GenericLetterMap letterMap;
-    public static final String win = "1";
+    public static final String win = "2";
     public static final String scoreString = "1";
     // number of options the user is given
     private int nButtons = 4;
@@ -126,20 +126,18 @@ public class QuizActivity extends AppCompatActivity {
         // go to end screen
         if (lives <= 0){
             Intent intent = new Intent(this, EndScreenActivity.class);
-            intent.putExtra(win, 0);
+            intent.putExtra(win, false);
             intent.putExtra(scoreString, score);
             startActivity(intent);
+            finish();
         }
         else if (i >= letterMap.nEntries){
             Intent intent = new Intent(this, EndScreenActivity.class);
-            intent.putExtra(win, 1);
+            intent.putExtra(win, true);
             intent.putExtra(scoreString, score);
             startActivity(intent);
+            finish();
         }
-
-
-
-
         else {
 
             // update layout

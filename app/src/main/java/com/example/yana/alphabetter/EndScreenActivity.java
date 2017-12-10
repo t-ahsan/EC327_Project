@@ -16,19 +16,22 @@ public class EndScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_end__screen);
 
         int score = getIntent().getIntExtra(QuizActivity.scoreString, 0);
-        int winIndex = getIntent().getIntExtra(QuizActivity.win, 1);
+        boolean didUserWin = getIntent().getBooleanExtra(QuizActivity.win, true);
         String scoreString = "" + score;
-        String won;
-        if (winIndex == 1){
-            won = "YOU WON!!";
+        String winMessage;
+        if (didUserWin){
+            winMessage = "YOU WON!";
         }
-        else won = "YOU LOST!!";
+        else {
+            winMessage = "YOU LOST!";
+        }
 
         TextView tv = findViewById(R.id.textView5);
-        tv.setText(won);
+        tv.setText(winMessage);
+        tv.invalidate();
 
         TextView tv2 = findViewById(R.id.textView6);
-        tv2.setText("Your score is : " + scoreString);
+        tv2.setText("Your score was: " + scoreString);
     }
 
     public void Go_To_Beginning_Screen(View view) {
