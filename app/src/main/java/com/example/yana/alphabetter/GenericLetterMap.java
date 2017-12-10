@@ -6,6 +6,7 @@ import java.util.Random;
 
 /**
  * Created by yana on 11/24/2017.
+ * A framework to hold all of the data needed for LearnActivity and QuizActivity
  */
 
 public class GenericLetterMap {

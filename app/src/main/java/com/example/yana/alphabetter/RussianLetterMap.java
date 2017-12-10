@@ -6,6 +6,7 @@ import java.io.File;
 
 /**
  * Created by yana on 11/24/2017.
+ * Holds data needed for Russian learning/quiz mode
  */
 
 public class RussianLetterMap extends GenericLetterMap {

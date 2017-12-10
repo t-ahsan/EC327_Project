@@ -2,6 +2,7 @@ package com.example.yana.alphabetter;
 
 /**
  * Created by yana on 12/6/2017.
+ * Holds data needed for Greek learning/quiz activities.
  */
 
 public class GreekLetterMap extends GenericLetterMap {

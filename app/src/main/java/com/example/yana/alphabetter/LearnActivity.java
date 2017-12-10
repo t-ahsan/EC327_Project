@@ -97,10 +97,12 @@ public class LearnActivity extends AppCompatActivity {
         }
     }
 
+    // go to next letter when next button clicked
     public void onNextButtonClick (View view) {
         updateLetter(++letterNumber);
     }
 
+    // clear user's drawing when clear button clicked
     public void onClearButtonClick (View view) {
         letterCanvas.eraseAll();
     }
