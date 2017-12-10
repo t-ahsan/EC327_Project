@@ -32,6 +32,8 @@ public class LearnActivity extends AppCompatActivity {
     // displays letter in known language (English)
     private TextView knownLetterView;
 
+    private TextView traceLetterView;
+
     // button for sound
     private ImageButton audioButton;
 
@@ -68,6 +70,7 @@ public class LearnActivity extends AppCompatActivity {
     public void setupLayout() {
         targetLetterView = findViewById(R.id.targetLetter);
         knownLetterView = findViewById(R.id.knownLetter);
+        traceLetterView = findViewById(R.id.traceLetter);
         nextButton = findViewById(R.id.nextButton);
         audioButton = findViewById(R.id.audioButton);
         letterCanvas = (LetterCanvas) findViewById(R.id.letterCanvas);
@@ -77,6 +80,7 @@ public class LearnActivity extends AppCompatActivity {
     // update layout for current letter
     private void updateLayout(){
         targetLetterView.setText(letterMap.getTargetLanguageEntry(letterNumber));
+        traceLetterView.setText(letterMap.getTargetLanguageEntry(letterNumber));
         knownLetterView.setText(letterMap.getKnownLanguageEntry(letterNumber));
         letterCanvas.eraseAll();
 

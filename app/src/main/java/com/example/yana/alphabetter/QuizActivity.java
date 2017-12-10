@@ -46,7 +46,7 @@ public class QuizActivity extends AppCompatActivity {
 
     // the correct button for the current question
     private int correctButton;
-    
+
     // displays the user's score
     private TextView scoreView;
 
