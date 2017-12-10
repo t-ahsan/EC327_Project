@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -65,7 +66,7 @@ public class QuizActivity extends AppCompatActivity {
     private TextView promptView;
 
     // displays the number of lives
-    private TextView livesView;
+    private ImageView livesView;
 
     // displays the status of the timer
     private TextView timerView;
@@ -383,7 +384,7 @@ public class QuizActivity extends AppCompatActivity {
         resultView = findViewById(R.id.result);
         questionNumberView = findViewById(R.id.questionNumber);
         promptView = findViewById(R.id.prompt);
-        livesView = findViewById(R.id.lives);
+        livesView = findViewById(R.id.imageView);
         timerView = findViewById(R.id.timer);
 
         buttons[0] = findViewById(R.id.buttonChoice1);
@@ -404,7 +405,18 @@ public class QuizActivity extends AppCompatActivity {
         scoreView.setText(Integer.toString(score));
 
         // updates lives
-        livesView.setText(Integer.toString(lives));
+        if (lives == 3){
+            livesView.setImageResource(R.drawable.three_hearts);
+        }
+        else if (lives == 2){
+            livesView.setImageResource(R.drawable.two_hearts);
+        }
+        else if (lives == 1){
+            livesView.setImageResource(R.drawable.one_heart);
+        }
+        else if (lives == 0){
+            livesView.setImageResource(R.drawable.zero_hearts);
+        }
 
         // hide result
         resultView.setVisibility(View.INVISIBLE);
