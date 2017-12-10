@@ -34,6 +34,8 @@ public class LearnActivity extends AppCompatActivity {
 
     private TextView traceLetterView;
 
+    private TextView progressView;
+
     // button for sound
     private ImageButton audioButton;
 
@@ -73,6 +75,7 @@ public class LearnActivity extends AppCompatActivity {
         traceLetterView = findViewById(R.id.traceLetter);
         nextButton = findViewById(R.id.nextButton);
         audioButton = findViewById(R.id.audioButton);
+        progressView = findViewById(R.id.progressText);
         letterCanvas = (LetterCanvas) findViewById(R.id.letterCanvas);
         sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[0]);
     }
@@ -82,6 +85,7 @@ public class LearnActivity extends AppCompatActivity {
         targetLetterView.setText(letterMap.getTargetLanguageEntry(letterNumber));
         traceLetterView.setText(letterMap.getTargetLanguageEntry(letterNumber));
         knownLetterView.setText(letterMap.getKnownLanguageEntry(letterNumber));
+        progressView.setText(letterNumber + "/" + letterMap.nEntries);
         letterCanvas.eraseAll();
 
     }
@@ -109,7 +113,7 @@ public class LearnActivity extends AppCompatActivity {
 
     // play audio when user clicks audio button
     public void onSoundButtonClick(View view) {
-        sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[letterNumber]);
+        sound = MediaPlayer.create(LearnActivity.this, letterMap.getAudioFileEntry(letterNumber));
         sound.start();
 
         sound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {

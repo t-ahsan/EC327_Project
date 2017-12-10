@@ -39,7 +39,7 @@ public class GenericLetterMap {
     public String knownLanguageName = "English";
 
     // an array that holds the location of audio files for the target language
-    public int audioFiles[] = new int [nEntries];
+    protected int audioFiles[] = new int [nEntries];
 
 
     // shuffle all entries randomly, while still maintaining same indices for corresponding

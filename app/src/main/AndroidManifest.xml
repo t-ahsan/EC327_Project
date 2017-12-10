@@ -25,12 +25,16 @@
             android:name=".DifficultyActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".LearnActivity" />
+        <activity android:name=".LearnActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <activity android:name=".EndScreenActivity" />
+        <activity android:name=".EndScreenActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

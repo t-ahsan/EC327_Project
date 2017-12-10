@@ -23,4 +23,5 @@
     <string name="next_string">Next</string>
     <string name="practice_string">Practice writing by tracing the letter below!</string>
     <string name="clear_string">Clear Drawing</string>
+    <string name="progress_string">--/--</string>
 </resources>

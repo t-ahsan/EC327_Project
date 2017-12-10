@@ -480,6 +480,9 @@ public class QuizActivity extends AppCompatActivity {
         else if (lives == 0){
             livesView.setImageResource(R.drawable.zero_hearts);
         }
+        else {
+            throw new RuntimeException("Unvalid lives");
+        }
 
         // hide result
         resultView.setVisibility(View.INVISIBLE);
