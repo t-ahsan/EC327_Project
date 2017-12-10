@@ -16,7 +16,7 @@ public class EndScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_end__screen);
 
         int score = getIntent().getIntExtra(QuizActivity.scoreString, 0);
-        int winIndex = getIntent().getIntExtra(QuizActivity.win, 0);
+        int winIndex = getIntent().getIntExtra(QuizActivity.win, 1);
         String scoreString = "" + score;
         String won;
         if (winIndex == 1){

@@ -113,26 +113,23 @@ public class QuizActivity extends AppCompatActivity {
 
     private void updateQuestion(int i) {
         // check if end of quiz
-        if (i >= letterMap.nEntries || lives <= 0) {
-            // go to 'end screen'???
-
-            if (i >= letterMap.nEntries){
-                Intent intent = new Intent(this, EndScreenActivity.class);
-                intent.putExtra(win, 1);
-                intent.putExtra(scoreString, score);
-                startActivity(intent);
-            }
-
-            if (lives <= 0){
-                Intent intent = new Intent(this, EndScreenActivity.class);
-                intent.putExtra(win, 0);
-                intent.putExtra(scoreString, score);
-                startActivity(intent);
-            }
-
-            // TO DO: Implement end screen
-
+        // go to end screen
+        if (lives <= 0){
+            Intent intent = new Intent(this, EndScreenActivity.class);
+            intent.putExtra(win, 0);
+            intent.putExtra(scoreString, score);
+            startActivity(intent);
         }
+        else if (i >= letterMap.nEntries){
+            Intent intent = new Intent(this, EndScreenActivity.class);
+            intent.putExtra(win, 1);
+            intent.putExtra(scoreString, score);
+            startActivity(intent);
+        }
+
+
+
+
         else {
 
             // update layout
