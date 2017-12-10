@@ -20,6 +20,9 @@ drawing on a canvas
 
 public class LearnActivity extends AppCompatActivity {
 
+    public static final String language = "could be anything";
+    public static final String mode = "learnMode";
+
     // data for language
     private GenericLetterMap letterMap;
 
@@ -89,8 +92,11 @@ public class LearnActivity extends AppCompatActivity {
     // update activity for next letter
     private void updateLetter(int lNum) {
         if (lNum >= letterMap.nEntries) {
-
-            finish();
+            Intent intent = new Intent(this, EndScreenActivity.class);
+            int languageIndex = getIntent().getIntExtra(MainActivity.LanguageNum, 0);
+            intent.putExtra(language, languageIndex);
+            intent.putExtra(mode, 0);
+            startActivity(intent);
         }
         else {
             updateLayout();
