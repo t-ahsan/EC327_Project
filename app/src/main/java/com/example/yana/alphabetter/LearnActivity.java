@@ -11,6 +11,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/*
+Created by yana on 12/9/17
+The activity that allows the user to learn the target language alphabet by seeing the letters,
+hearing a native speaker pronounce them, and allows the user to practice writing the letters by
+drawing on a canvas
+ */
+
 public class LearnActivity extends AppCompatActivity {
 
     // data for language
@@ -96,11 +103,15 @@ public class LearnActivity extends AppCompatActivity {
 
     // play audio when user clicks audio button
     public void onSoundButtonClick(View view) {
-        if (sound.isPlaying()) {
-            sound.stop();
-        }
         sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[letterNumber]);
         sound.start();
+
+        sound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+
+        });
     }
 
     // loads letter map for language

@@ -46,20 +46,25 @@ public class GenericLetterMap {
     public void shuffleEntries() {
         int index;
         String temp[] = new String[nDimensions];
+        int tempInt;
         Random random = new Random();
         for (int i = nEntries - 1; i > 0; i--) {
             index = random.nextInt(i + 1);
             for (int j = 0; j < nDimensions; j++ ) {
                 temp[j] = entryMap[index][j];
+
             }
+            tempInt = audioFiles[index];
 
             for (int j = 0; j < nDimensions; j++) {
                 entryMap[index][j] = entryMap[i][j];
             }
+            audioFiles[index] = audioFiles[i];
 
             for (int j = 0; j < nDimensions; j++) {
                 entryMap[i][j] = temp[j];
             }
+            audioFiles[i] = tempInt;
 
         }
     }
@@ -86,6 +91,14 @@ public class GenericLetterMap {
             throw new RuntimeException("Invalid index");
         }
         return entryMap[index][targetCapitalLettersIndex];
+    }
+
+    // returns entry from audio file array at index
+    public int getAudioFileEntry(int index) {
+        if (index < 0 || index >= nEntries) {
+            throw new RuntimeException("Invalid index");
+        }
+        return audioFiles[index];
     }
 
 }

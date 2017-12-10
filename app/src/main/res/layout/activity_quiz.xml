@@ -198,4 +198,16 @@
         android:text="@string/timer_string"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/questionNumber" />
+
+    <ImageButton
+        android:id="@+id/questionAudioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="120dp"
+        android:onClick="onQuestionAudioButtonClick"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/speaker_icon" />
 </android.support.constraint.ConstraintLayout>

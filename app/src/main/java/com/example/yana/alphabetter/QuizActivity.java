@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -73,6 +74,8 @@ public class QuizActivity extends AppCompatActivity {
     // displays the options for answers
     private Button buttons[] = new Button[nButtons];
 
+    private ImageButton questionAudioButton;
+
     // timer for each question
     private CountDownTimer timer;
 
@@ -84,7 +87,10 @@ public class QuizActivity extends AppCompatActivity {
 
     private boolean isHardMode = false;
 
-    private MediaPlayer resultSound;
+    private MediaPlayer sound;
+
+    private int questionAudio = -1;
+
 
 
     @Override
@@ -126,15 +132,15 @@ public class QuizActivity extends AppCompatActivity {
             // update layout
             updateLayout();
 
-            // randomly choose between testing Latin and Foreign Alphabet
+            // randomly choose between testing Latin, target language, or audio
             Random random = new Random();
-            boolean isTestTargetMode = random.nextBoolean();
+            int testMode = random.nextInt(3);
 
             String questionLetter, correctAnswer;
             int incorrectAnswerIndex;
             int incorrectIndices[] = new int[nButtons];
             boolean valueUnique;
-            if (isTestTargetMode) {
+            if (testMode == 0) {
                 //set prompt
                 promptView.setText("Choose correct " + letterMap.knownLanguageAlphabetName + " letter");
                 // set question
@@ -165,7 +171,7 @@ public class QuizActivity extends AppCompatActivity {
                     }
                 }
 
-            } else {
+            } else if (testMode == 1) {
                 //set prompt
                 promptView.setText("Choose correct " + letterMap.targetLanguageAlphabetName + " letter");
 
@@ -196,6 +202,56 @@ public class QuizActivity extends AppCompatActivity {
                         buttons[j].setText(letterMap.getTargetCapitalLetterEntry(incorrectAnswerIndex));
                     }
                 }
+            }
+            else {
+                //set prompt
+                promptView.setText("Choose correct " + letterMap.targetLanguageAlphabetName + " letter");
+
+                // set question
+                questionAudio = letterMap.getAudioFileEntry(i);
+
+                sound = MediaPlayer.create(QuizActivity.this, questionAudio);
+                sound.start();
+                sound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+
+                });
+                questionView.setVisibility(View.INVISIBLE);
+                questionAudioButton.setVisibility(View.VISIBLE);
+                questionAudioButton.setClickable(true);
+
+
+
+
+                correctAnswer = letterMap.getTargetCapitalLetterEntry(i);
+
+
+                // randomly choose a button for correct answer
+                correctButton = random.nextInt(nButtons);
+                (buttons[correctButton]).setText(correctAnswer);
+
+                // fill in other buttons randomly with incorrect answers
+                for (int j = 0; j < nButtons; j++) {
+                    if (j != correctButton) {
+                        do {
+                            valueUnique = true;
+                            incorrectAnswerIndex = random.nextInt(letterMap.nEntries);
+                            //  check to make sure no answer options are repeated
+                            for (int k = 0; k < j; k++) {
+                                if (incorrectIndices[k] == incorrectAnswerIndex) {
+                                    valueUnique = false;
+                                    break;
+                                }
+                            }
+                        } while (!valueUnique || incorrectAnswerIndex == i);
+                        incorrectIndices[j] = incorrectAnswerIndex;
+                        buttons[j].setText(letterMap.getTargetCapitalLetterEntry(incorrectAnswerIndex));
+                    }
+                }
+
+
             }
 
             // enable user to click buttons
@@ -285,14 +341,22 @@ public class QuizActivity extends AppCompatActivity {
             // show result to user
             if (userCorrect) {
                 resultView.setText("Correct!");
-                resultSound = MediaPlayer.create(QuizActivity.this, R.raw.correct);
-                resultSound.start();
+                sound = MediaPlayer.create(QuizActivity.this, R.raw.correct);
+                sound.start();
             }
             else {
-                resultSound = MediaPlayer.create(QuizActivity.this, R.raw.incorrect);
-                resultSound.start();
+                sound = MediaPlayer.create(QuizActivity.this, R.raw.incorrect);
+                sound.start();
                 resultView.setText("Incorrect");
             }
+
+            sound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+
+            });
+
             resultView.setVisibility(View.VISIBLE);
 
             // go to next question after delay
@@ -382,6 +446,9 @@ public class QuizActivity extends AppCompatActivity {
         buttons[1] = findViewById(R.id.buttonChoice2);
         buttons[2] = findViewById(R.id.buttonChoice3);
         buttons[3] = findViewById(R.id.buttonChoice4);
+
+        questionAudioButton = findViewById(R.id.questionAudioButton);
+
     }
 
     // updates texts to match new question
@@ -400,6 +467,9 @@ public class QuizActivity extends AppCompatActivity {
 
         // hide result
         resultView.setVisibility(View.INVISIBLE);
+        questionAudioButton.setVisibility(View.INVISIBLE);
+        questionAudioButton.setClickable(false);
+        questionView.setVisibility(View.VISIBLE);
 
         buttons[0].setBackgroundColor(Color.GRAY);
         buttons[1].setBackgroundColor(Color.GRAY);
@@ -441,6 +511,15 @@ public class QuizActivity extends AppCompatActivity {
             }
         }.start();
     }
+
+    // replay question audio when question audio button is clicked
+    public void onQuestionAudioButtonClick(View view) {
+        sound = MediaPlayer.create(QuizActivity.this, questionAudio);
+        sound.start();
+
+    }
+
+
 
 }
 
