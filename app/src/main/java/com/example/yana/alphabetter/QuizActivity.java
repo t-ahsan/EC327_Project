@@ -46,10 +46,7 @@ public class QuizActivity extends AppCompatActivity {
 
     // the correct button for the current question
     private int correctButton;
-
-    // keeps track of if the user has answered the current question
-    private boolean questionAnswered = false;
-
+    
     // displays the user's score
     private TextView scoreView;
 
@@ -85,11 +82,14 @@ public class QuizActivity extends AppCompatActivity {
     // initial time timer is set to
     private long timeAtStart;
 
+    // boolean to determine if user is playing hard mode
     private boolean isHardMode = false;
 
+    // media player for all sounds in quiz
     private MediaPlayer sound;
 
-    private int questionAudio = -1;
+    // audio file to be played
+    private int questionAudio;
 
 
 
@@ -118,6 +118,7 @@ public class QuizActivity extends AppCompatActivity {
        updateQuestion(questionNumber++);
     }
 
+    // updates quiz to next question
     private void updateQuestion(int i) {
         // check if end of quiz
         if (i >= letterMap.nEntries || lives <= 0) {
@@ -271,66 +272,63 @@ public class QuizActivity extends AppCompatActivity {
 
 
 
-    // listener for all four buttons
+    // listener for all answer buttons
     private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             boolean userCorrect = false;
             Handler handler = new Handler();
-            // make sure user doesn't answer question more than once
-            if (!questionAnswered) {
-                questionAnswered = true;
-                timer.cancel();
-                // figure out if user clicked correct button
-                switch (v.getId()) {
-                    case R.id.buttonChoice1:
-                        if (correctButton == 0) {
-                            score += 100*timeLeft/timeAtStart;
-                            userCorrect = true;
-                            buttons[0].setBackgroundColor(Color.GREEN);
-                        }
-                        else {
-                            lives--;
-                            buttons[0].setBackgroundColor(Color.RED);
-                        }
-                        break;
-                    case R.id.buttonChoice2:
-                        if (correctButton == 1) {
-                            score += 100*timeLeft/timeAtStart;
-                            userCorrect = true;
-                            buttons[1].setBackgroundColor(Color.GREEN);
-                        }
-                        else {
-                            lives--;
-                            buttons[1].setBackgroundColor(Color.GREEN);
-                        }
-                        break;
-                    case R.id.buttonChoice3:
-                        if (correctButton == 2) {
-                            score += 100*timeLeft/timeAtStart;
-                            userCorrect = true;
-                            buttons[2].setBackgroundColor(Color.GREEN);
-                        }
-                        else {
-                            lives--;
-                            buttons[2].setBackgroundColor(Color.RED);
-                        }
-                        break;
-                    case R.id.buttonChoice4:
-                        if (correctButton == 3) {
-                            score += 100*timeLeft/timeAtStart;
-                            userCorrect = true;
-                            buttons[3].setBackgroundColor(Color.GREEN);
 
-                        }
-                        else {
-                            lives--;
-                            buttons[3].setBackgroundColor(Color.RED);
-                        }
-                        break;
-                    default:
-                        throw new RuntimeException("Unknown button ID");
-                }
+            timer.cancel();
+            // figure out if user clicked correct button
+            switch (v.getId()) {
+                case R.id.buttonChoice1:
+                    if (correctButton == 0) {
+                        score += 100*timeLeft/timeAtStart;
+                        userCorrect = true;
+                        buttons[0].setBackgroundColor(Color.GREEN);
+                    }
+                    else {
+                        lives--;
+                        buttons[0].setBackgroundColor(Color.RED);
+                    }
+                    break;
+                case R.id.buttonChoice2:
+                    if (correctButton == 1) {
+                        score += 100*timeLeft/timeAtStart;
+                        userCorrect = true;
+                        buttons[1].setBackgroundColor(Color.GREEN);
+                    }
+                    else {
+                        lives--;
+                        buttons[1].setBackgroundColor(Color.RED);
+                    }
+                    break;
+                case R.id.buttonChoice3:
+                    if (correctButton == 2) {
+                        score += 100*timeLeft/timeAtStart;
+                        userCorrect = true;
+                        buttons[2].setBackgroundColor(Color.GREEN);
+                    }
+                    else {
+                        lives--;
+                        buttons[2].setBackgroundColor(Color.RED);
+                    }
+                    break;
+                case R.id.buttonChoice4:
+                    if (correctButton == 3) {
+                        score += 100*timeLeft/timeAtStart;
+                        userCorrect = true;
+                        buttons[3].setBackgroundColor(Color.GREEN);
+
+                    }
+                    else {
+                        lives--;
+                        buttons[3].setBackgroundColor(Color.RED);
+                    }
+                    break;
+                default:
+                    throw new RuntimeException("Unknown button ID");
             }
 
             // disable buttons until next question loads
@@ -453,9 +451,6 @@ public class QuizActivity extends AppCompatActivity {
 
     // updates texts to match new question
     private void updateLayout() {
-        // user has not yet answered current question
-        questionAnswered = false;
-
         // update question number
         questionNumberView.setText(Integer.toString(questionNumber) + "/" + Integer.toString(letterMap.nEntries));
 

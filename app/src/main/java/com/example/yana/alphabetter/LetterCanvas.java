@@ -28,7 +28,7 @@ public class LetterCanvas extends View {
     //defines how to draw
     private Paint drawPaint;
 
-    // color
+    // paint color
     private int paintColor = 0xFFFF0000;
 
     //canvas - holding pen, holds your drawings
