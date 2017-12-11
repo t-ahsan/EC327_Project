@@ -248,7 +248,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="172dp"
         android:background="@drawable/audio_button_background"
-        android:background="@drawable/button_color"
         android:onClick="onQuestionAudioButtonClick"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/question"
