@@ -197,8 +197,8 @@
 
     <TextView
         android:id="@+id/prompt"
-        android:layout_width="208dp"
-        android:layout_height="22dp"
+        android:layout_width="215dp"
+        android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/prompt_string"

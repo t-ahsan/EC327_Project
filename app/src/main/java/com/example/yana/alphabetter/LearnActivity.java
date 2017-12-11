@@ -102,6 +102,7 @@ public class LearnActivity extends AppCompatActivity {
             intent.putExtra(language, languageIndex);
             intent.putExtra(mode, 0);
             startActivity(intent);
+            finish();
         }
         else {
             sound = MediaPlayer.create(LearnActivity.this, letterMap.getAudioFileEntry(letterNumber));
