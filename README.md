@@ -1,2 +1,4 @@
-# EC327_Project
-Android Project for EC327
+# αlphaБetter
+
+### Overview
+  Alphabetter is a alphabet learning app for andriod offering Russian, Greek, and Armenian.
