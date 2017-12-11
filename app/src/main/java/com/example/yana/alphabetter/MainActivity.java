@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // starts learn mode for russian when button is clicked
     public void startLearnRussian(View view) {
         Intent intent = new Intent(this, LearnActivity.class);
         intent.putExtra(LanguageNum, 0);
@@ -33,9 +34,24 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // starts learn mode for greek when button is clicked
     public void startLearnGreek(View view) {
         Intent intent = new Intent(this, LearnActivity.class);
         intent.putExtra(LanguageNum, 1);
+        startActivity(intent);
+    }
+
+    // starts armenian quiz when button is clicked
+    public void startArmenianQuiz(View view) {
+        Intent intent = new Intent(this, DifficultyActivity.class);
+        intent.putExtra(LanguageNum, 2);
+        startActivity(intent);
+    }
+
+    // starts learn mode for armenian when button is clicked
+    public void startLearnArmenian(View view) {
+        Intent intent = new Intent(this, LearnActivity.class);
+        intent.putExtra(LanguageNum, 2);
         startActivity(intent);
     }
 

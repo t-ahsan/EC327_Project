@@ -441,6 +441,7 @@ public class QuizActivity extends AppCompatActivity {
                 break;
             case 2:
                 letterMap = new ArmenianLetterMap();
+                break;
             default:
                 throw new RuntimeException("Unknown Language ID");
         }
