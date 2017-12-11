@@ -9,4 +9,6 @@
 ### Activities
   AlphaBetter consists of five main Activity Screens (*Main Activity, Learn Activity, Difficulty Activity, Quiz Activity and End Screen Activity*) which follow this general diagram:
   
-  <a href="https://github.com/khjharris/EC327_Project/documentation/AlphaBetterDiagram.png"> </a>
+  
+  
+ ![AlphaBetterDiagram](https://github.com/khjharris/EC327_Project/blob/master/documentation/AlphaBetterDiagram.png)
