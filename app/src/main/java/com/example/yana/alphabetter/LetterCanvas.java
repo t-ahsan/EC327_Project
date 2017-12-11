@@ -27,7 +27,7 @@ public class LetterCanvas extends View {
     // defines what to draw
     private Paint canvasPaint;
 
-    //d efines how to draw
+    // defines how to draw
     private Paint drawPaint;
 
     // paint color
@@ -73,10 +73,10 @@ public class LetterCanvas extends View {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        //create canvas of certain size.
+        //create canvas with a particular size
         super.onSizeChanged(w, h, oldw, oldh);
 
-        //create Bitmap of certain w,h
+        //create bitmap with a particular width and height
         canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
 
         //apply bitmap to graphic to start drawing.
@@ -91,13 +91,16 @@ public class LetterCanvas extends View {
         //respond to down, move and up events
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                // extend path to touch
                 drawPath.moveTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_MOVE:
+                // extend path to touch
                 drawPath.lineTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_UP:
                 drawPath.lineTo(touchX, touchY);
+                // display the path
                 drawCanvas.drawPath(drawPath, drawPaint);
                 drawPath.reset();
                 break;

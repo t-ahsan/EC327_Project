@@ -150,7 +150,7 @@ public class QuizActivity extends AppCompatActivity {
             // finish activity
             finish();
         }
-
+        // next question
         else {
 
             // update layout
