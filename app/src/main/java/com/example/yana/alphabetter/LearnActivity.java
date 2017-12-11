@@ -35,8 +35,10 @@ public class LearnActivity extends AppCompatActivity {
     // displays letter in known language (English)
     private TextView knownLetterView;
 
+    // displays letter for user to trace
     private TextView traceLetterView;
 
+    // displays total progress through alphabet
     private TextView progressView;
 
     // button for sound
@@ -44,6 +46,8 @@ public class LearnActivity extends AppCompatActivity {
 
     // button to go to next letter
     private Button nextButton;
+
+    private Button previousButton;
 
     // drawing canvas to practice writing letter
     private LetterCanvas letterCanvas;
@@ -85,11 +89,21 @@ public class LearnActivity extends AppCompatActivity {
         audioButton = findViewById(R.id.audioButton);
         progressView = findViewById(R.id.progressText);
         letterCanvas = (LetterCanvas) findViewById(R.id.letterCanvas);
+        previousButton = findViewById(R.id.previousButton);
         sound = MediaPlayer.create(LearnActivity.this, letterMap.audioFiles[0]);
     }
 
     // update layout for current letter
     private void updateLayout(){
+        // hide previous button when at first letter
+        if (letterNumber == 0) {
+            previousButton.setVisibility(View.INVISIBLE);
+            previousButton.setClickable(false);
+        }
+        else if (letterNumber == 1) {
+            previousButton.setVisibility(View.VISIBLE);
+            previousButton.setClickable(true);
+        }
         targetLetterView.setText(letterMap.getTargetLanguageEntry(letterNumber));
         traceLetterView.setText(letterMap.getTargetLanguageEntry(letterNumber));
         knownLetterView.setText(letterMap.getKnownLanguageEntry(letterNumber));
@@ -143,6 +157,10 @@ public class LearnActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    public void onPreviousButtonClick(View view) {
+        updateLetter(--letterNumber);
     }
 
     // loads letter map for language

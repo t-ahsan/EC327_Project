@@ -32,7 +32,7 @@
         android:layout_height="48dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:text="@string/known_letter_string"
         android:textAlignment="center"
         android:textColor="@android:color/black"
@@ -66,18 +66,15 @@
         android:id="@+id/nextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginRight="36dp"
-        android:layout_marginStart="32dp"
         android:background="@drawable/button_test"
         android:onClick="onNextButtonClick"
         android:text="@string/next_string"
         android:textColor="@android:color/white"
         app:layout_constraintBaseline_toBaselineOf="@+id/clearButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/audioButton" />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/traceLetter"
@@ -130,7 +127,7 @@
         android:layout_height="53dp"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="28dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:background="@drawable/button_test"
         android:onClick="onClearButtonClick"
         android:text="@string/clear_string"
@@ -151,4 +148,18 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/previousButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="6dp"
+        android:background="@drawable/button_test"
+        android:onClick="onPreviousButtonClick"
+        android:text="@string/previous_string"
+        android:textColor="@android:color/white"
+        app:layout_constraintBaseline_toBaselineOf="@+id/clearButton"
+        app:layout_constraintEnd_toStartOf="@+id/nextButton"
+        app:layout_constraintStart_toEndOf="@+id/clearButton" />
 </android.support.constraint.ConstraintLayout>

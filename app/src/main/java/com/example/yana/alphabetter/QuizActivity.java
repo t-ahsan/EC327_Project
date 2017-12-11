@@ -171,6 +171,7 @@ public class QuizActivity extends AppCompatActivity {
             if (testMode == 0) {
                 //set prompt
                 promptView.setText("Choose correct " + letterMap.knownLanguageAlphabetName + " letter");
+
                 // set question
                 questionLetter = letterMap.getTargetLanguageEntry(i);
                 correctAnswer = letterMap.getKnownLanguageEntry(i);
@@ -319,11 +320,9 @@ public class QuizActivity extends AppCompatActivity {
                     if (correctButton == 0) {
                         score += 100*timeLeft/timeAtStart;
                         userCorrect = true;
-                        //buttons[0].setBackgroundColor(Color.GREEN);
                     }
                     else {
                         lives--;
-                       // buttons[0].setBackgroundColor(Color.RED);
                     }
                     break;
 
@@ -331,11 +330,9 @@ public class QuizActivity extends AppCompatActivity {
                     if (correctButton == 1) {
                         score += 100*timeLeft/timeAtStart;
                         userCorrect = true;
-                        //buttons[1].setBackgroundColor(Color.GREEN);
                     }
                     else {
                         lives--;
-                        //buttons[1].setBackgroundColor(Color.RED);
                     }
                     break;
 
@@ -343,11 +340,9 @@ public class QuizActivity extends AppCompatActivity {
                     if (correctButton == 2) {
                         score += 100*timeLeft/timeAtStart;
                         userCorrect = true;
-                        //buttons[2].setBackgroundColor(Color.GREEN);
                     }
                     else {
                         lives--;
-                       // buttons[2].setBackgroundColor(Color.RED);
                     }
                     break;
 
@@ -355,12 +350,9 @@ public class QuizActivity extends AppCompatActivity {
                     if (correctButton == 3) {
                         score += 100*timeLeft/timeAtStart;
                         userCorrect = true;
-                       // buttons[3].setBackgroundColor(Color.GREEN);
-
                     }
                     else {
                         lives--;
-                       // buttons[3].setBackgroundColor(Color.RED);
                     }
                     break;
 
@@ -593,7 +585,7 @@ public class QuizActivity extends AppCompatActivity {
             setQuizTimer(timeLeft);
         }
     }
-    
+
 }
 
 

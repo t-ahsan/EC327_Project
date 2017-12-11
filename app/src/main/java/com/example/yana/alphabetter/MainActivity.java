@@ -1,5 +1,9 @@
 package com.example.yana.alphabetter;
 
+/*
+Start menu which allows user to choose quiz or learning mode, with appropriate language options for
+each
+ */
 import android.app.ActionBar;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

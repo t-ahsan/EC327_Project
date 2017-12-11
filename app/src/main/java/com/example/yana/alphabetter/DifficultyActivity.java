@@ -1,5 +1,7 @@
 package com.example.yana.alphabetter;
-/*Created by tahsan on 12/7/17.*/
+/*Created by tahsan on 12/7/17.
+* Allows user to choose difficulty for quizActivity
+* */
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +10,7 @@ import android.view.View;
 
 
 public class DifficultyActivity extends AppCompatActivity {
-    public static final String Difficulty = "1";
+    public static final String Difficulty = "3";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +18,7 @@ public class DifficultyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_difficulty);
     }
 
+    // starts quiz of appropriate language and regular difficulty
     public void startRegular(View view) {
         Intent intent = new Intent(this, QuizActivity.class);
         int language = getIntent().getIntExtra(MainActivity.LanguageNum, 0);
@@ -25,6 +28,7 @@ public class DifficultyActivity extends AppCompatActivity {
         finish();
     }
 
+    // starts quiz of appropriate language and hard difficulty
     public void startHard(View view) {
         Intent intent = new Intent(this, QuizActivity.class);
         int language = getIntent().getIntExtra(MainActivity.LanguageNum, 0);

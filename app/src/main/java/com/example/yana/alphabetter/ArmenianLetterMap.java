@@ -7,6 +7,7 @@ package com.example.yana.alphabetter;
  */
 
 public class ArmenianLetterMap extends GenericLetterMap {
+    //array to hold all armenian letters
     private String armenianLetters [] = {
             "Ա, ա",
             "Բ, բ",
@@ -49,6 +50,7 @@ public class ArmenianLetterMap extends GenericLetterMap {
             "Ֆ, ֆ"
     };
 
+    // array to hold transliterated version of armenian letters
     private String transliteratedArmenianLetters [] =  {
         "a",
         "b",
@@ -91,6 +93,7 @@ public class ArmenianLetterMap extends GenericLetterMap {
         "f"
     };
 
+    // array to hold capital version of armenian letters
     private String capitalArmenianLetters[] = {
             "Ա",
             "Բ",
@@ -133,6 +136,7 @@ public class ArmenianLetterMap extends GenericLetterMap {
             "Ֆ"
     };
 
+    // array to hold audio for armenian letters
     private int armenianAudioFiles [] = {
             R.raw.ar_1,
             R.raw.ar_2,
@@ -183,6 +187,8 @@ public class ArmenianLetterMap extends GenericLetterMap {
         targetLanguageName = "Armenian";
         nEntries = 39;
         entryMap = new String[nEntries][nDimensions];
+
+        // fill entryMap with armenian data
         for (int i = 0; i < nEntries; i++) {
             entryMap[i][targetLanguageIndex] = armenianLetters[i];
             entryMap[i][knownLanguageIndex] = transliteratedArmenianLetters[i];
