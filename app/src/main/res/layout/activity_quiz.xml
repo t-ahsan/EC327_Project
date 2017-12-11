@@ -25,18 +25,18 @@
 
     <Button
         android:id="@+id/buttonChoice2"
-        android:layout_width="170dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_round"
         android:text="@string/choice2_string"
         app:layout_constraintBottom_toTopOf="@+id/buttonChoice4"
         app:layout_constraintEnd_toEndOf="@+id/buttonChoice4"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/buttonChoice4"
+        app:layout_constraintStart_toEndOf="@+id/buttonChoice1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.965" />
 
@@ -46,11 +46,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="52dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:background="@drawable/button_round"
         android:text="@string/choice3_string"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/buttonChoice4"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -233,6 +233,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="180dp"
+        android:background="@drawable/button_color"
         android:onClick="onQuestionAudioButtonClick"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/question"
