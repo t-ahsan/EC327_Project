@@ -7,4 +7,10 @@
 
     <color name = "buttonPressed">#34565c</color>
     <color name = "buttonNotPressed">#5F9AA6</color>
+
+    <color name = "colorCanvas">#cccccc</color>
+
+    <color name = "hardNotPressed">#FFC20003</color>
+    <color name = "hardPressed">#840002</color>
+
 </resources>

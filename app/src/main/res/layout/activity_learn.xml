@@ -5,47 +5,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.yana.alphabetter.LearnActivity">
+    tools:context="com.example.yana.alphabetter.LearnActivity"
+    android:background="@drawable/gradiant_test">
 
     <TextView
         android:id="@+id/targetLetter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        tTop_toTopOf="pare"
+        android:layout_width="163dp"
+        android:layout_height="78dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/montserrat"
         android:text="@string/target_letter_string"
-        android:textSize="48sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="55sp"
+        android:typeface="monospace"
+        app:layout_constraintEnd_toEndOf="@+id/knownLetter"
+        app:layout_constraintHorizontal_bias="0.463"
+        app:layout_constraintStart_toStartOf="@+id/knownLetter"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/knownLetter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/known_letter_string"
-        android:textSize="24sp"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="@+id/audioButton"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/audioButton"
         app:layout_constraintTop_toBottomOf="@+id/targetLetter" />
 
     <ImageButton
         android:id="@+id/audioButton"
-        android:layout_width="62dp"
-        android:layout_height="61dp"
+        android:layout_width="68dp"
+        android:layout_height="58dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:onClick="onSoundButtonClick"
         android:src="@drawable/speaker_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/practiceLetter"
+        app:layout_constraintEnd_toEndOf="@+id/practiceLetter"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/practiceLetter"
         app:layout_constraintTop_toBottomOf="@+id/knownLetter"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/nextButton"
@@ -54,6 +68,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="36dp"
         android:layout_marginStart="32dp"
+        android:background="@drawable/button_test"
         android:onClick="onNextButtonClick"
         android:text="@string/next_string"
         app:layout_constraintBaseline_toBaselineOf="@+id/clearButton"
@@ -64,8 +79,9 @@
 
     <TextView
         android:id="@+id/traceLetter"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="421dp"
+        android:layout_height="182dp"
+        android:background="#FFFFFF"
         android:gravity="center_vertical|center_horizontal"
         android:text="@string/target_letter_string"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -73,44 +89,49 @@
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="@+id/letterCanvas"
         app:layout_constraintEnd_toEndOf="@+id/letterCanvas"
+        app:layout_constraintHorizontal_bias="0.169"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/letterCanvas" />
+        app:layout_constraintTop_toTopOf="@+id/letterCanvas"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.example.yana.alphabetter.LetterCanvas
         android:id="@+id/letterCanvas"
-        android:layout_width="371dp"
-        android:layout_height="0dp"
+        android:layout_width="426dp"
+        android:layout_height="184dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/clearButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/practiceLetter"
-        app:layout_constraintVertical_bias="0.387" />
+        app:layout_constraintVertical_bias="0.214" />
 
     <TextView
         android:id="@+id/practiceLetter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/practice_string"
+        android:layout_width="346dp"
+        android:layout_height="33dp"
+        android:text="Practice tracing the letters bellow"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.467" />
+        app:layout_constraintVertical_bias="0.466" />
 
     <Button
         android:id="@+id/clearButton"
         android:layout_width="135dp"
         android:layout_height="53dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginLeft="28dp"
         android:layout_marginStart="32dp"
+        android:background="@drawable/button_test"
         android:onClick="onClearButtonClick"
         android:text="@string/clear_string"
         app:layout_constraintBottom_toBottomOf="parent"

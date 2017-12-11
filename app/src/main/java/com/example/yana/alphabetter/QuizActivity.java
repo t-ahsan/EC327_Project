@@ -298,45 +298,45 @@ public class QuizActivity extends AppCompatActivity {
                     if (correctButton == 0) {
                         score += 100*timeLeft/timeAtStart;
                         userCorrect = true;
-                        buttons[0].setBackgroundColor(Color.GREEN);
+                        //buttons[0].setBackgroundColor(Color.GREEN);
                     }
                     else {
                         lives--;
-                        buttons[0].setBackgroundColor(Color.RED);
+                       // buttons[0].setBackgroundColor(Color.RED);
                     }
                     break;
                 case R.id.buttonChoice2:
                     if (correctButton == 1) {
                         score += 100*timeLeft/timeAtStart;
                         userCorrect = true;
-                        buttons[1].setBackgroundColor(Color.GREEN);
+                        //buttons[1].setBackgroundColor(Color.GREEN);
                     }
                     else {
                         lives--;
-                        buttons[1].setBackgroundColor(Color.RED);
+                        //buttons[1].setBackgroundColor(Color.RED);
                     }
                     break;
                 case R.id.buttonChoice3:
                     if (correctButton == 2) {
                         score += 100*timeLeft/timeAtStart;
                         userCorrect = true;
-                        buttons[2].setBackgroundColor(Color.GREEN);
+                        //buttons[2].setBackgroundColor(Color.GREEN);
                     }
                     else {
                         lives--;
-                        buttons[2].setBackgroundColor(Color.RED);
+                       // buttons[2].setBackgroundColor(Color.RED);
                     }
                     break;
                 case R.id.buttonChoice4:
                     if (correctButton == 3) {
                         score += 100*timeLeft/timeAtStart;
                         userCorrect = true;
-                        buttons[3].setBackgroundColor(Color.GREEN);
+                       // buttons[3].setBackgroundColor(Color.GREEN);
 
                     }
                     else {
                         lives--;
-                        buttons[3].setBackgroundColor(Color.RED);
+                       // buttons[3].setBackgroundColor(Color.RED);
                     }
                     break;
                 default:
@@ -375,8 +375,6 @@ public class QuizActivity extends AppCompatActivity {
                     updateQuestion(questionNumber++);
                 }
             }, 1000);
-
-
         }
     };
 
@@ -440,7 +438,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     // sets up layout for quiz
-    private void setupLayout() {
+    private void setupLayout(){
         setContentView(R.layout.activity_quiz);
 
         scoreView = findViewById(R.id.score);
@@ -458,7 +456,6 @@ public class QuizActivity extends AppCompatActivity {
         buttons[3] = findViewById(R.id.buttonChoice4);
 
         questionAudioButton = findViewById(R.id.questionAudioButton);
-
     }
 
     // updates texts to match new question
@@ -489,10 +486,10 @@ public class QuizActivity extends AppCompatActivity {
         questionAudioButton.setClickable(false);
         questionView.setVisibility(View.VISIBLE);
 
-        buttons[0].setBackgroundColor(Color.GRAY);
+        /*buttons[0].setBackgroundColor(Color.GRAY);
         buttons[1].setBackgroundColor(Color.GRAY);
         buttons[2].setBackgroundColor(Color.GRAY);
-        buttons[3].setBackgroundColor(Color.GRAY);
+        buttons[3].setBackgroundColor(Color.GRAY);*/
 
         // shorten timer for hard mode
         if (isHardMode) {
