@@ -79,6 +79,8 @@ public class QuizActivity extends AppCompatActivity {
     // timer for each question
     private CountDownTimer timer;
 
+    private boolean timerInPlay = false;
+
     // time left to answer each question
     private long timeLeft;
 
@@ -122,7 +124,7 @@ public class QuizActivity extends AppCompatActivity {
         letterMap.shuffleEntries();
 
         // start quiz
-       updateQuestion(questionNumber++);
+       updateQuestion(questionNumber);
     }
 
     // updates quiz to next question
@@ -307,7 +309,7 @@ public class QuizActivity extends AppCompatActivity {
         public void onClick(View v) {
             // cancel timer
             timer.cancel();
-
+            timerInPlay = false;
 
             boolean userCorrect = false;
             Handler handler = new Handler();
@@ -413,6 +415,7 @@ public class QuizActivity extends AppCompatActivity {
     public void confirmQuitQuiz() {
         // pause timer
         timer.cancel();
+        timerInPlay = false;
         // ask if user really wants to quit quiz
         new AlertDialog.Builder(this)
                 .setTitle("Quit Quiz?")
@@ -509,7 +512,7 @@ public class QuizActivity extends AppCompatActivity {
             livesView.setImageResource(R.drawable.zero_hearts);
         }
         else {
-            throw new RuntimeException("Unvalid lives");
+            throw new RuntimeException("Invalid lives");
         }
 
         // hide result
@@ -518,10 +521,6 @@ public class QuizActivity extends AppCompatActivity {
         questionAudioButton.setClickable(false);
         questionView.setVisibility(View.VISIBLE);
 
-        /*buttons[0].setBackgroundColor(Color.GRAY);
-        buttons[1].setBackgroundColor(Color.GRAY);
-        buttons[2].setBackgroundColor(Color.GRAY);
-        buttons[3].setBackgroundColor(Color.GRAY);*/
 
         // shorten timer for hard mode
         if (isHardMode) {
@@ -557,6 +556,7 @@ public class QuizActivity extends AppCompatActivity {
 
             }
         }.start();
+        timerInPlay = true;
     }
 
     // replay question audio when question audio button is clicked
@@ -566,8 +566,34 @@ public class QuizActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
 
+        // pause timer
+        timer.cancel();
+        timerInPlay = false;
+    }
 
+    @Override
+    public void onStop(){
+        super.onStop();
+
+        // pause timer
+        timer.cancel();
+        timerInPlay = false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // resume timer
+        if (!timerInPlay) {
+            setQuizTimer(timeLeft);
+        }
+    }
+    
 }
 
 
