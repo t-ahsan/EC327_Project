@@ -64,6 +64,7 @@ public class LetterCanvas extends View {
         init();
     }
 
+    // handle drawing
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(canvasBitmap, 0 , 0, canvasPaint);
