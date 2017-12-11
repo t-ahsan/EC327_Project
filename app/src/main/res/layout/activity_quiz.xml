@@ -124,9 +124,10 @@
 
     <TextView
         android:id="@+id/score"
-        android:layout_width="wrap_content"
+        android:layout_width="35dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="36dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/score_string"
         android:textColor="@android:color/black"
@@ -196,7 +197,7 @@
 
     <TextView
         android:id="@+id/prompt"
-        android:layout_width="187dp"
+        android:layout_width="208dp"
         android:layout_height="22dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat"
@@ -231,8 +232,8 @@
         android:id="@+id/timer"
         android:layout_width="127dp"
         android:layout_height="47dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/timer_string"
         android:textAlignment="textStart"
@@ -260,7 +261,7 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="62dp"
+        android:layout_width="46dp"
         android:layout_height="36dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
