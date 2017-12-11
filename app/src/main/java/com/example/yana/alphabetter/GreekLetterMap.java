@@ -6,6 +6,8 @@ package com.example.yana.alphabetter;
  */
 
 public class GreekLetterMap extends GenericLetterMap {
+
+    // stores all greek letters
     private String greekLetters [] = {
             "Α, α",
             "Β, β",
@@ -33,6 +35,7 @@ public class GreekLetterMap extends GenericLetterMap {
             "Ω, ω",
     };
 
+    // stores all capital greek letters
     private String capitalGreekLetters[] = {
             "Α",
             "Β",
@@ -60,6 +63,7 @@ public class GreekLetterMap extends GenericLetterMap {
             "Ω"
     };
 
+    // stores all names of greek letters
     private String greekLetterNames [] = {
             "alpha",
             "beta",
@@ -87,6 +91,8 @@ public class GreekLetterMap extends GenericLetterMap {
             "omega"
     };
 
+    // stores locations of all audio for greek letters
+    // audio taken from http://www.foundalis.com/lan/grkalpha.htm
     private int greekAudioFiles[] = {
             R.raw.alpha,
             R.raw.beta,
@@ -119,8 +125,10 @@ public class GreekLetterMap extends GenericLetterMap {
         super();
         targetLanguageAlphabetName = "Greek";
         targetLanguageName = "Greek";
-        nEntries = 23;
+        nEntries = 24;
         entryMap = new String[nEntries][nDimensions];
+
+        // fill entryMap with greek data
         for (int i = 0; i < nEntries; i++) {
             entryMap[i][targetLanguageIndex] = greekLetters[i];
             entryMap[i][knownLanguageIndex] = greekLetterNames[i];

@@ -136,7 +136,8 @@ public class ArmenianLetterMap extends GenericLetterMap {
             "Ֆ"
     };
 
-    // array to hold audio for armenian letters
+    // holds locations for audio for armenian letters
+    // audio taken from https://commons.wikimedia.org/wiki/File:Armenian_alphabet_(Eastern_Armenian).ogg
     private int armenianAudioFiles [] = {
             R.raw.ar_1,
             R.raw.ar_2,

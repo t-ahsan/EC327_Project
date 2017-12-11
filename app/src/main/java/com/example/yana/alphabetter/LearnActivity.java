@@ -1,14 +1,11 @@
 package com.example.yana.alphabetter;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 /*
@@ -20,7 +17,8 @@ drawing on a canvas
 
 public class LearnActivity extends AppCompatActivity {
 
-    public static final String language = "could be anything";
+    // strings for intents
+    public static final String language = "language";
     public static final String mode = "learnMode";
 
     // data for language
@@ -40,12 +38,6 @@ public class LearnActivity extends AppCompatActivity {
 
     // displays total progress through alphabet
     private TextView progressView;
-
-    // button for sound
-    private ImageButton audioButton;
-
-    // button to go to next letter
-    private Button nextButton;
 
     private Button previousButton;
 
@@ -85,8 +77,6 @@ public class LearnActivity extends AppCompatActivity {
         targetLetterView = findViewById(R.id.targetLetter);
         knownLetterView = findViewById(R.id.knownLetter);
         traceLetterView = findViewById(R.id.traceLetter);
-        nextButton = findViewById(R.id.nextButton);
-        audioButton = findViewById(R.id.audioButton);
         progressView = findViewById(R.id.progressText);
         letterCanvas = (LetterCanvas) findViewById(R.id.letterCanvas);
         previousButton = findViewById(R.id.previousButton);
@@ -100,21 +90,30 @@ public class LearnActivity extends AppCompatActivity {
             previousButton.setVisibility(View.INVISIBLE);
             previousButton.setClickable(false);
         }
+        // show previous button at second letter
         else if (letterNumber == 1) {
             previousButton.setVisibility(View.VISIBLE);
             previousButton.setClickable(true);
         }
+
+        // update text
         targetLetterView.setText(letterMap.getTargetLanguageEntry(letterNumber));
         traceLetterView.setText(letterMap.getTargetLanguageEntry(letterNumber));
         knownLetterView.setText(letterMap.getKnownLanguageEntry(letterNumber));
         progressView.setText((letterNumber+1) + "/" + letterMap.nEntries);
+
+        // erase drawings from previous letter
         letterCanvas.eraseAll();
 
     }
 
     // update activity for next letter
     private void updateLetter(int lNum) {
-        if (lNum >= letterMap.nEntries) {
+        if (lNum < 0) {
+            throw new RuntimeException("Invalid letter number");
+        }
+        // go to end screen activity when user goes through all letters
+        else if (lNum >= letterMap.nEntries) {
             Intent intent = new Intent(this, EndScreenActivity.class);
             int languageIndex = getIntent().getIntExtra(MainActivity.LanguageNum, 0);
             intent.putExtra(language, languageIndex);
@@ -123,15 +122,19 @@ public class LearnActivity extends AppCompatActivity {
             finish();
         }
         else {
+            // automatically play sound corresponding to letter
             sound = MediaPlayer.create(LearnActivity.this, letterMap.getAudioFileEntry(letterNumber));
             sound.start();
 
+            // release sound when finished playing
             sound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 public void onCompletion(MediaPlayer mp) {
                     mp.release();
                 }
 
             });
+
+            // update layout to match new letter
             updateLayout();
         }
     }
@@ -148,9 +151,11 @@ public class LearnActivity extends AppCompatActivity {
 
     // play audio when user clicks audio button
     public void onSoundButtonClick(View view) {
+        // load sound corresponding to letter
         sound = MediaPlayer.create(LearnActivity.this, letterMap.getAudioFileEntry(letterNumber));
         sound.start();
 
+        // release sound when finished playing
         sound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
                 mp.release();
@@ -159,6 +164,7 @@ public class LearnActivity extends AppCompatActivity {
         });
     }
 
+    // go to previous letter when previous button clicked
     public void onPreviousButtonClick(View view) {
         updateLetter(--letterNumber);
     }

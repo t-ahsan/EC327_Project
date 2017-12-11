@@ -1,9 +1,5 @@
 package com.example.yana.alphabetter;
 
-import android.os.Environment;
-
-import java.io.File;
-
 /**
  * Created by yana on 11/24/2017.
  * Holds data needed for Russian learning/quiz mode
@@ -120,6 +116,8 @@ public class RussianLetterMap extends GenericLetterMap {
             "ya"
     };
 
+    // stores location of all russian audio files
+    // audio taken from https://en.wikipedia.org/wiki/File:Russian_alphabet.ogg
     private int russianAudioFiles[] = {
             R.raw.a,
             R.raw.b,
@@ -163,6 +161,8 @@ public class RussianLetterMap extends GenericLetterMap {
         targetLanguageName = "Russian";
         nEntries = 33;
         entryMap = new String[nEntries][nDimensions];
+
+        // fill entryMap with russian data
         for (int i = 0; i < nEntries; i++) {
             entryMap[i][targetLanguageIndex] = russianLetters[i];
             entryMap[i][knownLanguageIndex] = romanizedLetters[i];

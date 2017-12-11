@@ -8,9 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 
 
-
 public class DifficultyActivity extends AppCompatActivity {
-    public static final String Difficulty = "3";
+    public static final String Difficulty = "difficulty_string";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

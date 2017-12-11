@@ -7,16 +7,12 @@
 
 package com.example.yana.alphabetter;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,29 +21,29 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
     // the database for the questions
     GenericLetterMap letterMap;
 
-    public static final String win = "1";
-    public static final String scoreString = "2";
+    // strings to handle intents
+    public static final String win = "win_string";
+    public static final String scoreString = "score_string";
+
     // number of options the user is given
     private int nButtons = 4;
 
-    // user's score on the quiz
+    // user's current score on the quiz
     private int score = 0;
 
     // the question number the user is currently on
     private int questionNumber = 0;
 
-    // instantiates lives
+    // lives user has left
     private int lives;
 
-    // the correct button for the current question
+    // the button with the correct answer for the current question
     private int correctButton;
 
     // displays the user's score
@@ -74,11 +70,13 @@ public class QuizActivity extends AppCompatActivity {
     // displays the options for answers
     private Button buttons[] = new Button[nButtons];
 
+    // displays the audio button
     private ImageButton questionAudioButton;
 
     // timer for each question
     private CountDownTimer timer;
 
+    // boolean to determine if timer is running
     private boolean timerInPlay = false;
 
     // time left to answer each question
@@ -162,7 +160,10 @@ public class QuizActivity extends AppCompatActivity {
             Random random = new Random();
             int testMode = random.nextInt(3);
 
+            // strings that hold question, and the answer
             String questionLetter, correctAnswer;
+
+            // variables to help with filling incorrect answers uniquely
             int incorrectAnswerIndex;
             int incorrectIndices[] = new int[nButtons];
             boolean valueUnique;
@@ -201,7 +202,7 @@ public class QuizActivity extends AppCompatActivity {
                 }
 
             }
-            // test with latin
+            // test with latin transliteration
             else if (testMode == 1) {
                 //set prompt
                 promptView.setText("Choose correct " + letterMap.targetLanguageAlphabetName + " letter");
@@ -302,7 +303,6 @@ public class QuizActivity extends AppCompatActivity {
             }
         }
     }
-
 
     // listener for all answer buttons
     private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
@@ -458,6 +458,8 @@ public class QuizActivity extends AppCompatActivity {
                 timeAtStart = 10000;
                 isHardMode = true;
                 break;
+            default:
+                throw new RuntimeException("Invalid difficulty");
         }
     }
 
@@ -504,7 +506,7 @@ public class QuizActivity extends AppCompatActivity {
             livesView.setImageResource(R.drawable.zero_hearts);
         }
         else {
-            throw new RuntimeException("Invalid lives");
+            throw new RuntimeException("Invalid amount of lives");
         }
 
         // hide result
@@ -524,6 +526,7 @@ public class QuizActivity extends AppCompatActivity {
     private void setQuizTimer(long beginTime) {
         timer = new CountDownTimer(beginTime, 10) {
 
+            // display amount of time left
             public void onTick(long millisUntilFinished) {
                 timeLeft = millisUntilFinished;
                 timerView.setText("Seconds remaining: " + millisUntilFinished / 1000);
@@ -555,7 +558,6 @@ public class QuizActivity extends AppCompatActivity {
     public void onQuestionAudioButtonClick(View view) {
         sound = MediaPlayer.create(QuizActivity.this, questionAudio);
         sound.start();
-
     }
 
     @Override

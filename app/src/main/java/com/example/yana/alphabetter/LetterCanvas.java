@@ -16,16 +16,18 @@ import android.view.View;
  * Created by yana on 12/9/2017.
  * The custom View object that allows the user to draw/trace letters in the target
  * language to practice writing them.
+ *
+ * Used http://valokafor.com/android-drawing-app-tutorial-part-1/ as reference
  */
 
 public class LetterCanvas extends View {
     // the path being drawn
     private Path drawPath;
 
-    //defines what to draw
+    // defines what to draw
     private Paint canvasPaint;
 
-    //defines how to draw
+    //d efines how to draw
     private Paint drawPaint;
 
     // paint color
@@ -102,14 +104,14 @@ public class LetterCanvas extends View {
             default:
                 return false;
         }
+
         //redraw
         invalidate();
         return true;
     }
 
-    // erase entire drawing
+    // erases entire drawing, returns true if successfully erased
     public boolean eraseAll() {
-        //drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         if (drawCanvas != null) {
             drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
             invalidate();
