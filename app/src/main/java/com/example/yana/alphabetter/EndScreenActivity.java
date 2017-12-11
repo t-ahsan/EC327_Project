@@ -25,6 +25,7 @@ public class EndScreenActivity extends AppCompatActivity {
         String won = "";
         String language = "";
 
+        // determine language
         if (languageIndex == 2) {
             language = "Armenian";
         }
@@ -57,6 +58,7 @@ public class EndScreenActivity extends AppCompatActivity {
 
     }
 
+    // go back to main menu
     public void Go_To_Beginning_Screen(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
