@@ -100,6 +100,7 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //getActionBar().setTitle("Quiz");
         // get intent to figure out language for quiz
         Intent intent = getIntent();
         int languageIndex = intent.getIntExtra(MainActivity.LanguageNum, 0);
