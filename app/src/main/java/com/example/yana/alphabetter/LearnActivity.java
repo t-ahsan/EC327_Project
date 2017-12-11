@@ -68,6 +68,7 @@ public class LearnActivity extends AppCompatActivity {
         //setup layout
         setupLayout();
 
+        // go to first letter
         updateLetter(letterNumber);
     }
 
@@ -88,7 +89,7 @@ public class LearnActivity extends AppCompatActivity {
         targetLetterView.setText(letterMap.getTargetLanguageEntry(letterNumber));
         traceLetterView.setText(letterMap.getTargetLanguageEntry(letterNumber));
         knownLetterView.setText(letterMap.getKnownLanguageEntry(letterNumber));
-        progressView.setText(letterNumber + "/" + letterMap.nEntries);
+        progressView.setText((letterNumber+1) + "/" + letterMap.nEntries);
         letterCanvas.eraseAll();
 
     }
@@ -103,6 +104,15 @@ public class LearnActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else {
+            sound = MediaPlayer.create(LearnActivity.this, letterMap.getAudioFileEntry(letterNumber));
+            sound.start();
+
+            sound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+
+            });
             updateLayout();
         }
     }
@@ -138,6 +148,9 @@ public class LearnActivity extends AppCompatActivity {
                 break;
             case 1:
                 letterMap = new GreekLetterMap();
+                break;
+            case 2:
+                letterMap = new ArmenianLetterMap();
                 break;
             default:
                 throw new RuntimeException("Unknown Language ID");

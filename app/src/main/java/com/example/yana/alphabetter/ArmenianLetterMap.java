@@ -2,6 +2,8 @@ package com.example.yana.alphabetter;
 
 /**
  * Created by yana on 12/10/2017.
+ *
+ * Stores data for learn/quiz modes in Armenian
  */
 
 public class ArmenianLetterMap extends GenericLetterMap {

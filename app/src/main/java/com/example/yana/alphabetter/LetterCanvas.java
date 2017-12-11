@@ -55,8 +55,11 @@ public class LetterCanvas extends View {
 
     }
 
+    // constructor
     public LetterCanvas(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        //setup canvas
         init();
     }
 

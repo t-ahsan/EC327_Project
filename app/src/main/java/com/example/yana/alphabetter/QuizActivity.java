@@ -1,7 +1,7 @@
 /* Created by yana on 11/23/17
    Handles the quiz activity.
-   The activity is a multiple choice quiz that displays a letter on the screen,
-   and gives 4 different options for answers in the opposite alphabet.
+   The activity is a multiple choice quiz that displays a letter on the screen (or plays audio),
+   and gives 4 different options for answers.
  */
 
 
@@ -142,6 +142,8 @@ public class QuizActivity extends AppCompatActivity {
 
             // go to end screen
             startActivity(intent);
+
+            // finish activity
             finish();
         }
 
@@ -439,6 +441,8 @@ public class QuizActivity extends AppCompatActivity {
             case 1:
                 letterMap = new GreekLetterMap();
                 break;
+            case 2:
+                letterMap = new ArmenianLetterMap();
             default:
                 throw new RuntimeException("Unknown Language ID");
         }

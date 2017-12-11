@@ -15,6 +15,7 @@ public class EndScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end__screen);
 
+        // get score, language, and whether user won or not from intent
         int score = getIntent().getIntExtra(QuizActivity.scoreString, 0);
         int winIndex = getIntent().getIntExtra(QuizActivity.win, 0);
         int mode = getIntent().getIntExtra(LearnActivity.mode, 1);
@@ -24,7 +25,10 @@ public class EndScreenActivity extends AppCompatActivity {
         String won = "";
         String language = "";
 
-        if (languageIndex == 1){
+        if (languageIndex == 2) {
+            language = "Armenian";
+        }
+        else if (languageIndex == 1){
             language = "Greek";
         }
         else if (languageIndex == 0) {
@@ -36,6 +40,7 @@ public class EndScreenActivity extends AppCompatActivity {
         }
         else won = "YOU LOST!!";
 
+        // display results
         TextView tv = findViewById(R.id.textView5);
         TextView tv2 = findViewById(R.id.textView6);
         if (mode == 1) {
