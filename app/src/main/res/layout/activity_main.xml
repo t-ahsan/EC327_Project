@@ -16,11 +16,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/montserrat"
-        android:text="αlphaБetter"
+        android:text="@string/Title"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="55sp"
-        android:typeface="monospace"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.571"
@@ -36,7 +35,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="48dp"
         android:fontFamily="@font/montserrat"
-        android:text="Quiz Mode:"
+        android:text="@string/quiz_mode_string"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="25sp"
@@ -55,7 +54,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/montserrat"
-        android:text="Learn Mode:"
+        android:text="@string/learn_mode_string"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="25sp"
@@ -72,7 +71,8 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/button_round"
         android:onClick="startRussianQuiz"
-        android:text="Russian"
+        android:text="@string/russian_string"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="@+id/greek_quiz_button"
         app:layout_constraintStart_toStartOf="@+id/greek_quiz_button"
         app:layout_constraintTop_toBottomOf="@+id/quizText" />
@@ -86,7 +86,8 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/button_round"
         android:onClick="startGreekQuiz"
-        android:text="Greek"
+        android:text="@string/greek_string"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/russian_quiz_button" />
@@ -99,7 +100,8 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/button_round"
         android:onClick="startLearnRussian"
-        android:text="russian"
+        android:text="@string/russian_string"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="@+id/learn_greek_button"
         app:layout_constraintStart_toStartOf="@+id/learn_greek_button"
         app:layout_constraintTop_toBottomOf="@+id/learnText" />
@@ -113,10 +115,9 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/button_round"
         android:onClick="startLearnGreek"
-        android:text="Greek"
+        android:text="@string/greek_string"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/learn_russian_button" />
-
-
 </android.support.constraint.ConstraintLayout>

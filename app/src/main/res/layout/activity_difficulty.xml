@@ -15,7 +15,7 @@
         android:fontFamily="@font/montserrat"
         android:onClick="startRegular"
         android:text="Regular"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -31,6 +31,7 @@
         android:fontFamily="@font/montserrat"
         android:onClick="startHard"
         android:text="Hard"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="@+id/button"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/button"
@@ -38,8 +39,8 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="154dp"
-        android:layout_height="26dp"
+        android:layout_width="256dp"
+        android:layout_height="29dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="36dp"
         android:fontFamily="@font/montserrat"

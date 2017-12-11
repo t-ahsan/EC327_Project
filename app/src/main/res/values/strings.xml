@@ -24,4 +24,9 @@
     <string name="practice_string">Practice tracing the letter below!</string>
     <string name="clear_string">Clear Drawing</string>
     <string name="progress_string">--/--</string>
+    <string name="Title">αlphaБetter</string>
+    <string name="russian_string">Russian</string>
+    <string name="greek_string">Greek</string>
+    <string name="quiz_mode_string">Quiz mode:</string>
+    <string name="learn_mode_string">Learn mode:</string>
 </resources>
