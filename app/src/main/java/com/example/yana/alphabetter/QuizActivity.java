@@ -127,7 +127,7 @@ public class QuizActivity extends AppCompatActivity {
         // user loses
         if (lives <= 0){
             Intent intent = new Intent(this, EndScreenActivity.class);
-            intent.putExtra(win, false);
+            intent.putExtra(win, 0);
             intent.putExtra(scoreString, score);
 
             // go to end screen
@@ -137,7 +137,7 @@ public class QuizActivity extends AppCompatActivity {
         // user completes quiz and wins
         else if (i >= letterMap.nEntries){
             Intent intent = new Intent(this, EndScreenActivity.class);
-            intent.putExtra(win, true);
+            intent.putExtra(win, 1);
             intent.putExtra(scoreString, score);
 
             // go to end screen
