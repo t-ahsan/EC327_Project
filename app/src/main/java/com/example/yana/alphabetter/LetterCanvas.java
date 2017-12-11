@@ -24,16 +24,16 @@ public class LetterCanvas extends View {
     // the path being drawn
     private Path drawPath;
 
-    // defines what to draw
+    // defines where to draw
     private Paint canvasPaint;
 
-    // defines how to draw
+    // defines style of drawing
     private Paint drawPaint;
 
     // paint color
     private int paintColor = 0xFFFF0000;
 
-    // transfers
+    // transfers the drawing to view
     public Canvas drawCanvas;
 
     //canvas bitmap
@@ -72,6 +72,7 @@ public class LetterCanvas extends View {
     }
 
 
+    // function that gets called when object first displayed
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         //create canvas with a particular size
@@ -85,6 +86,7 @@ public class LetterCanvas extends View {
 
     }
 
+    // responds to user touching Canvas
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float touchX = event.getX();
