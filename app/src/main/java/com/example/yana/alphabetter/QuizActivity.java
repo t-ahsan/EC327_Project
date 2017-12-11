@@ -107,6 +107,10 @@ public class QuizActivity extends AppCompatActivity {
         // Decide which language to use based on button clicked in start screen
         loadLetterMap(languageIndex);
 
+        // set action bar title
+        android.support.v7.app.ActionBar mActionBar= getSupportActionBar();
+        mActionBar.setTitle("Quizzing " + letterMap.targetLanguageName);
+
         // figure out difficulty for quiz
         int difficultyIndex = getIntent().getIntExtra(DifficultyActivity.Difficulty, 0);
         loadDifficultyLevel(difficultyIndex);

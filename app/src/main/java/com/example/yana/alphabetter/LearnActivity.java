@@ -65,6 +65,10 @@ public class LearnActivity extends AppCompatActivity {
         // Decide which language to use based on button clicked in start screen
         loadLetterMap(languageIndex);
 
+        // set action bar title
+        android.support.v7.app.ActionBar mActionBar= getSupportActionBar();
+        mActionBar.setTitle("Learning " + letterMap.targetLanguageName);
+
         //setup layout
         setupLayout();
 
