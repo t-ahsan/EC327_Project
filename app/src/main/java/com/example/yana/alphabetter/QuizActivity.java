@@ -391,7 +391,7 @@ public class QuizActivity extends AppCompatActivity {
             // go to next question after delay
             handler.postDelayed(new Runnable() {
                 public void run() {
-                    updateQuestion(questionNumber++);
+                    updateQuestion(++questionNumber);
                 }
             }, 1000);
         }
@@ -487,7 +487,7 @@ public class QuizActivity extends AppCompatActivity {
     // updates texts to match new question
     private void updateLayout() {
         // update question number
-        questionNumberView.setText(Integer.toString(questionNumber) + "/" + Integer.toString(letterMap.nEntries));
+        questionNumberView.setText((questionNumber + 1) + "/" + letterMap.nEntries);
 
         // update score
         scoreView.setText(Integer.toString(score));
@@ -545,7 +545,7 @@ public class QuizActivity extends AppCompatActivity {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        updateQuestion(questionNumber++);
+                        updateQuestion(++questionNumber);
                     }
                 }, 500);
 
