@@ -3,9 +3,7 @@
 ## Overview
   Alphabetter is a alphabet learning app for andriod offering Russian, Greek, and Armenian. Alphabeter offers two main modes, learning mode, and quiz mode, with varying levels of difficulty. Written in Java using Android Studio. 
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=n4g0X0Ob2mY
-" target="_blank"><img src="http://img.youtube.com/vi/n4g0X0Ob2mY/0.jpg"/></a>
-
+[![AlphaBetter Youtube Demo](https://img.youtube.com/vi/n4g0X0Ob2mY/0.jpg)](https://www.youtube.com/watch?v=n4g0X0Ob2mY)
  By: Yana Galina, Vanessa Schuweh, Kenwood Harris, Tariq Ahsan, Elizabeth Slade
  
 ## How to Run
